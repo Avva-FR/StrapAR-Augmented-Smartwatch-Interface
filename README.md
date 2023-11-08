@@ -1,13 +1,13 @@
-### KPMI_2023
+# KPMI_2023
 
-# Verantwortlichkeiten
+## Verantwortlichkeiten
 
 Flo: Uhrenarmband und Arduino 
 Dieter: Uhr und Unity
 Yorick: Uhr und Unity
 
 
-# Aufgaben und nächste Schritte
+## Aufgaben und nächste Schritte
 
 Flo: Uhrenarmband Prototypen 
 Dieter: Uhr serverkonnektion und basic App

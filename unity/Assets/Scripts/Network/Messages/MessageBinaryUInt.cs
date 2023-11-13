@@ -5,7 +5,7 @@ namespace IMLD.MixedReality.Network
         /// <summary>
         /// The type of the message. Add any new message types to the MessageContainer.MessageType enum.
         /// </summary>
-        public static MessageContainer.MessageType Type = MessageContainer.MessageType.BINARY_UINT;
+        public static MessageContainer.MessageType Type = MessageContainer.MessageType.Sensor0;
 
         /// <summary>
         /// The payload, a 32 bit unsigned integer

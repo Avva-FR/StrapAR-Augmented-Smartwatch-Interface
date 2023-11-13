@@ -6,7 +6,7 @@ using System;
 
 public class HandleSensorData : MonoBehaviour
 {
-    public bool confirmPressed; = false;
+    public bool confirmPressed = false;
     public bool fwdButtonPressed = false;
     public bool bwdButtonPressed = false;
 

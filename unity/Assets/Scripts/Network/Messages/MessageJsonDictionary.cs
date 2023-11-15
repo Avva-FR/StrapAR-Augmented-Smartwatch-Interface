@@ -1,7 +1,7 @@
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Text;
-
+/*
 namespace IMLD.MixedReality.Network
 {
     public class MessageJsonDictionary
@@ -55,3 +55,4 @@ namespace IMLD.MixedReality.Network
         }
     }
 }
+*/

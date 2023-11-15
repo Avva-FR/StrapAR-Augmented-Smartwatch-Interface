@@ -1,11 +1,11 @@
 namespace IMLD.MixedReality.Network
 {
-    public class MessageBinaryUInt
+    public class MsgBinUintS4
     {
         /// <summary>
         /// The type of the message. Add any new message types to the MessageContainer.MessageType enum.
         /// </summary>
-        public static MessageContainer.MessageType Type = MessageContainer.MessageType.Sensor0;
+        public static MessageContainer.MessageType Type = MessageContainer.MessageType.Sensor4;
 
         /// <summary>
         /// The payload, a 32 bit unsigned integer
@@ -16,7 +16,7 @@ namespace IMLD.MixedReality.Network
         /// Constructor
         /// </summary>
         /// <param name="data">The payload, a 32 bit unsigned integer</param>
-        public MessageBinaryUInt(uint data)
+        public MsgBinUintS4(uint data)
         {
             Data = data;
         }
@@ -37,7 +37,7 @@ namespace IMLD.MixedReality.Network
         /// </summary>
         /// <param name="container">The container to unpack</param>
         /// <returns>A new MessageBinaryUInt</returns>
-        public static MessageBinaryUInt Unpack(MessageContainer container)
+        public static MsgBinUintS4 Unpack(MessageContainer container)
         {
             // check the container type
             if (container.Type != Type)
@@ -47,7 +47,7 @@ namespace IMLD.MixedReality.Network
 
             // convert the byte array of the payload to an uint
             uint Result = System.BitConverter.ToUInt32(container.Payload, 0);
-            return new MessageBinaryUInt(Result);
+            return new MsgBinUintS4(Result);
         }
     }
 }

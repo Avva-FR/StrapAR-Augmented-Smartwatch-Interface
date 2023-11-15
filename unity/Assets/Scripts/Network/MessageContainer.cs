@@ -11,11 +11,11 @@ namespace IMLD.MixedReality.Network
         /// </summary>
         public enum MessageType
         {
-            Sensor0 = 0;
-            Sensor1 = 1;
-            Sensor2 = 2;
-            Sensor3 = 3;
-            Sensor4 = 4;
+            Sensor0 = 0,
+            Sensor1 = 1,
+            Sensor2 = 2,
+            Sensor3 = 3,
+            Sensor4 = 4
         }
 
         /// <summary>

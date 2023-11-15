@@ -19,7 +19,6 @@ needs to be changed to, then either copy paste for the rest of the types or hand
 - public static MessageContainer.MessageType Type = MessageContainer.MessageType.Sensor0;
 
 ## Setting State
-
 Whats required for this to work:
 
 1. Register statechange on watch (e.g.: swiped to different App)

@@ -15,12 +15,18 @@ WiFiClient client;
 ESP8266WiFiMulti WiFiMulti;
 const char* ssid = STASSID;
 const char* password = STAPSK;
+// home
+//const char* host = "192.168.178.30";
 const char* host = "192.168.0.105";
 const int16_t port = 11337;
 
-// Datatype
 uint16_t val_array[5];
+bool sensor_pressed[5] = {false};
+// double tap window currently at 0.5 s
+unsigned long double_tap_timer = 500;
+unsigned long last_release_time[5] = {0};
 uint16_t pressure_treshhold = 700;
+
 
 void setup() {
   // Setup baudRate
@@ -83,7 +89,6 @@ void loop() {
    * cut out false readings, on ADSnarrow down range
    * note that val_piezo0 is measured at the ESP A0 Pin and does not display behaviour that would require clipping or remapping
    */
- 
   val_array[0] = val_piezo0;
   val_array[1] = map(clipRange(val_piezo1), 0, 1100, 0, 1023);
   val_array[2] = map(clipRange(val_piezo2), 0, 1100, 0, 1023);
@@ -95,8 +100,22 @@ void loop() {
    * type {0,...,4} corresponds to sensor values 0 to 4
    */
   for (int i = 0; i < 5; i++) {
-    if (val_array[i] > pressure_treshhold) {
+    if (val_array[i] > pressure_treshhold && !sensor_pressed[i]) {
+      sensor_pressed[i] = true;
+    } 
+    // send msg on release of the touch event
+    else if (val_array[i] <= pressure_treshhold && sensor_pressed[i])
+    {
+      unsigned long current_time = millis();
+      // send static value of 100 for a double tap event
+      if (current_time - last_release_time[i] <= double_tap_timer) 
+      {
+        sendTCP_MSG_uint16(i, 100, true);    
+        
+      } else {
+      
       sendTCP_MSG_uint16(i, val_array[i], true);
+      sensor_pressed[i] = false;
     }
   }
 }

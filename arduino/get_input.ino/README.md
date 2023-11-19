@@ -30,3 +30,9 @@ For example: a downward swipe gesture with the right thumb could send the follow
 3. remap Overreadings
 4. Filter out "unintentional" Inputdata
 5. SendTCP
+
+## Todo
+
+- [ ] send on release (shift processing to arduino)
+- [ ] implement doubletap (timer based)
+- [ ] debug unity recvside

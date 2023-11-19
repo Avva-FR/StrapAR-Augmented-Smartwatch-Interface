@@ -212,21 +212,32 @@ public class RotateOverNetwork : MonoBehaviour
     // @TODO implement specific behaviour
     public void HandleDefaultConfirmPress()
     {
-        // @TODO implement Basehandler
+        if (GetComponent<MeshRenderer>() != null)
+        {
+            GetComponent<MeshRenderer>().material.color = new Color(0.0f, 0.0f, 0.0f);
+        }
     }
 
     public void HandleCalenderAppConfirmPress()
     {
-        // @TODO implement
+        if (GetComponent<MeshRenderer>() != null)
+        {
+            GetComponent<MeshRenderer>().material.color = new Color(0.196f, 0.803f, 0.196f);
+        }
     }
     public void HandleGraphAppConfirmPress()
     {
-        
-        // @TODO implement
+        if (GetComponent<MeshRenderer>() != null)
+        {
+            GetComponent<MeshRenderer>().material.color = new Color(0.722f, 0.059f, 0.039f);
+        }
     }
     public void HandleWeatherAppConfirmPress()
     {
-        // @TODO implement
+       if (GetComponent<MeshRenderer>() != null)
+        {
+            GetComponent<MeshRenderer>().material.color = new Color(0.988f, 0.886f, 0.020f);
+        }
     }
 
     //
@@ -234,21 +245,33 @@ public class RotateOverNetwork : MonoBehaviour
     //
     public void HandleDefaultFWDButtonPress()
     {
-        // @TODO implement
+        if (GetComponent<MeshRenderer>() != null)
+        {
+            GetComponent<MeshRenderer>().material.color = new Color(0.2f, 0.2f, 0.2f);
+        }
     }
 
     public void HandleCalenderAppFWDPress()
     {
-        // @TODO implement
+        if (GetComponent<MeshRenderer>() != null)
+        {
+            GetComponent<MeshRenderer>().material.color = new Color(0.604f, 0.804f, 0.196f);
+        }
     }
 
     public void HandleWeatherAppFWDPress()
     {
-        // @ TODO implement
+        if (GetComponent<MeshRenderer>() != null)
+        {
+            GetComponent<MeshRenderer>().material.color = new Color(0.980f, 0.855f, 0.369f);
+        }
     }
     public void HandleGraphAppFWDPress()
     {
-        // @TODO implement
+        if (GetComponent<MeshRenderer>() != null)
+        {
+            GetComponent<MeshRenderer>().material.color = new Color(0.706f, 0.216f, 0.341f);
+        }
     }
 
     //
@@ -256,34 +279,48 @@ public class RotateOverNetwork : MonoBehaviour
     //
     public void HandleDefaultBWDButtonPress()
     {
-        MeshRenderer meshRenderer = GetComponent<MeshRenderer>();
+        // MeshRenderer meshRenderer = GetComponent<MeshRenderer>();
 
-        // Make sure the MeshRenderer component exists
-        if (meshRenderer != null)
+        // // Make sure the MeshRenderer component exists
+        // if (meshRenderer != null)
+        // {
+        //     // Create a new material instance to avoid changing the original prefab material
+        //     Material material = new Material(meshRenderer.sharedMaterial);
+
+        //     // Set the new color to the material
+        //     material.color = newColor;
+
+        //     // Assign the new material to the MeshRenderer
+        //     meshRenderer.material = material;
+        // }
+
+       if (GetComponent<MeshRenderer>() != null)
         {
-            // Create a new material instance to avoid changing the original prefab material
-            Material material = new Material(meshRenderer.sharedMaterial);
-
-            // Set the new color to the material
-            material.color = newColor;
-
-            // Assign the new material to the MeshRenderer
-            meshRenderer.material = material;
-        }
+            GetComponent<MeshRenderer>().material.color = new Color(0.4f, 0.4f, 0.4f);
+        } 
     }
 
     public void HandleCalenderAppBWDPress()
     {
-        // @TODO implement
+        if (GetComponent<MeshRenderer>() != null)
+        {
+            GetComponent<MeshRenderer>().material.color = new Color(0.4f, 0.804f, 0.667f);
+        } 
     }
 
     public void HandleWeatherAppBWDPress()
     {
-        // @ TODO implement
+        if (GetComponent<MeshRenderer>() != null)
+        {
+            GetComponent<MeshRenderer>().material.color = new Color(0.988f, 0.957f, 0.639f);
+        } 
     }
     public void HandleGraphAppBWDPress()
     {
-        // @TODO implement
+        if (GetComponent<MeshRenderer>() != null)
+        {
+            GetComponent<MeshRenderer>().material.color = new Color(0.804f, 0.361f, 0.361f);
+        } 
     }
 
     //
@@ -291,21 +328,33 @@ public class RotateOverNetwork : MonoBehaviour
     //
     public void HandleDefaultBothButtonPress()
     {
-        // @TODO implement
+        if (GetComponent<MeshRenderer>() != null)
+        {
+            GetComponent<MeshRenderer>().material.color = new Color(0.667f, 0.667f, 0.667f);
+        } 
     }
 
     public void HandleCalenderAppBothPress()
     {
-        // @TODO implement
+         if (GetComponent<MeshRenderer>() != null)
+        {
+            GetComponent<MeshRenderer>().material.color = new Color(0.565f, 0.933f, 0.565f);
+        } 
     }
 
     public void HandleWeatherAppBothPress()
     {
-        // @ TODO implement
+        if (GetComponent<MeshRenderer>() != null)
+        {
+            GetComponent<MeshRenderer>().material.color = new Color(1f, 0.992f, 0.816f);
+        }  
     }
     public void HandleGraphAppBothPress()
     {
-        // @TODO implement
+        if (GetComponent<MeshRenderer>() != null)
+        {
+            GetComponent<MeshRenderer>().material.color = new Color(0.980f, 0.502f, 0.447f);
+        } 
     }
 
     // this thing exist :)

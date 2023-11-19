@@ -23,7 +23,7 @@ const int16_t port = 11337;
 uint16_t val_array[5];
 bool sensor_pressed[5] = {false};
 // double tap window currently at 0.5 s
-unsigned long double_tap_timer = 500;
+unsigned long double_tap_timer = 1000;
 unsigned long last_release_time[5] = {0};
 uint16_t pressure_treshhold = 700;
 
@@ -98,7 +98,9 @@ void loop() {
   /*
    * only send touchevents
    * type {0,...,4} corresponds to sensor values 0 to 4
-   */
+   */   
+
+ 
   for (int i = 0; i < 5; i++) {
     if (val_array[i] > pressure_treshhold && !sensor_pressed[i]) {
       sensor_pressed[i] = true;
@@ -108,13 +110,19 @@ void loop() {
       unsigned long current_time = millis();
       // send static value of 100 for a double tap event
       if (current_time - last_release_time[i] <= double_tap_timer) {
-        sendTCP_MSG_uint16(i, 100, true);  
+        //sendTCP_MSG_uint16(i, 100, true);
+        Serial.println(i);
+        Serial.println("doubletap");
       } else {
-      sendTCP_MSG_uint16(i, val_array[i], true);
-      sensor_pressed[i] = false;
+      //sendTCP_MSG_uint16(i, val_array[i], true);
+      Serial.println(i);
+      Serial.println("single press and release");
       }
+      last_release_time[i] = current_time;
+      sensor_pressed[i] = false;
     }
   }
+  
 }
 
 

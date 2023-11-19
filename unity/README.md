@@ -45,4 +45,3 @@ Buttons presses infer what function to call based on the current State, hence th
 see HandleButtonPress() function.
 
 The function infers the corresponding functionto call based on current AppState and which Button was pressed.
-

@@ -104,18 +104,15 @@ void loop() {
       sensor_pressed[i] = true;
     } 
     // send msg on release of the touch event
-    else if (val_array[i] <= pressure_treshhold && sensor_pressed[i])
-    {
+    else if (val_array[i] <= pressure_treshhold && sensor_pressed[i]) {
       unsigned long current_time = millis();
       // send static value of 100 for a double tap event
-      if (current_time - last_release_time[i] <= double_tap_timer) 
-      {
-        sendTCP_MSG_uint16(i, 100, true);    
-        
+      if (current_time - last_release_time[i] <= double_tap_timer) {
+        sendTCP_MSG_uint16(i, 100, true);  
       } else {
-      
       sendTCP_MSG_uint16(i, val_array[i], true);
       sensor_pressed[i] = false;
+      }
     }
   }
 }

@@ -33,6 +33,7 @@ public class RotateOverNetwork : MonoBehaviour
         NetworkServer.Instance.RegisterMessageHandler(MessageContainer.MessageType.Sensor2, HandleSensor2Data);
         NetworkServer.Instance.RegisterMessageHandler(MessageContainer.MessageType.Sensor3, HandleSensor3Data);
         NetworkServer.Instance.RegisterMessageHandler(MessageContainer.MessageType.Sensor4, HandleSensor3Data);
+        NetworkServer.Instance.RegisterMessageHandler(MessageContainer.MessageType.StateChange, SetAppState);
     }
 
     //
@@ -44,8 +45,8 @@ public class RotateOverNetwork : MonoBehaviour
         Debug.Log("recv Sensor0 data: " + data0);
         s1MsgCount++;
         
-        // debug
-        SetAppState(0);
+        // // debug
+        // SetAppState(0);
         // implement a timer for double tap
         fwdButtonPressed = true;
         HandleButtonPress();
@@ -96,8 +97,10 @@ public class RotateOverNetwork : MonoBehaviour
     /*  If you send an int from the watch representing the state like we do in the Arduinopart
      *  Call This function to set the State so, HandleConfirmButtonPress() selects the correct behaviour
      */
-    public void SetAppState(int receivedAppState)
+    public void SetAppState(MessageContainer container)
     {
+        uint receivedAppState = MsgBinUintState.Unpack(container).Data;
+        
         switch (receivedAppState)
         {
             case 0:

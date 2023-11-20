@@ -15,7 +15,8 @@ namespace IMLD.MixedReality.Network
             Sensor1 = 1,
             Sensor2 = 2,
             Sensor3 = 3,
-            Sensor4 = 4
+            Sensor4 = 4,
+            StateChange = 5
         }
 
         /// <summary>

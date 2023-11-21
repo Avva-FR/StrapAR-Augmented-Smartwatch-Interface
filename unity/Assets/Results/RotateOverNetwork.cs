@@ -32,7 +32,7 @@ public class RotateOverNetwork : MonoBehaviour
         NetworkServer.Instance.RegisterMessageHandler(MessageContainer.MessageType.Sensor1, HandleSensor1Data);
         NetworkServer.Instance.RegisterMessageHandler(MessageContainer.MessageType.Sensor2, HandleSensor2Data);
         NetworkServer.Instance.RegisterMessageHandler(MessageContainer.MessageType.Sensor3, HandleSensor3Data);
-        NetworkServer.Instance.RegisterMessageHandler(MessageContainer.MessageType.Sensor4, HandleSensor3Data);
+        NetworkServer.Instance.RegisterMessageHandler(MessageContainer.MessageType.Sensor4, HandleSensor4Data);
         NetworkServer.Instance.RegisterMessageHandler(MessageContainer.MessageType.StateChange, SetAppState);
     }
 
@@ -299,7 +299,7 @@ public class RotateOverNetwork : MonoBehaviour
 
        if (GetComponent<MeshRenderer>() != null)
         {
-            GetComponent<MeshRenderer>().material.color = new Color(0.4f, 0.4f, 0.4f);
+            GetComponent<MeshRenderer>().material.color = new Color(0.9f, 0.9f, 0.9f);
         } 
     }
 

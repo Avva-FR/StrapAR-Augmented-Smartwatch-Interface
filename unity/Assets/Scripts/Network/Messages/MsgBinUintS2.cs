@@ -10,13 +10,13 @@ namespace IMLD.MixedReality.Network
         /// <summary>
         /// The payload, a 32 bit unsigned integer
         /// </summary>
-        public uint Data;
+        public ushort Data;
 
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="data">The payload, a 32 bit unsigned integer</param>
-        public MsgBinUintS2(uint data)
+        public MsgBinUintS2(ushort data)
         {
             Data = data;
         }
@@ -46,7 +46,7 @@ namespace IMLD.MixedReality.Network
             }
 
             // convert the byte array of the payload to an uint
-            uint Result = System.BitConverter.ToUInt32(container.Payload, 0);
+            ushort Result = System.BitConverter.ToUInt16(container.Payload, 0);
             return new MsgBinUintS2(Result);
         }
     }

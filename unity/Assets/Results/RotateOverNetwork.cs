@@ -55,7 +55,7 @@ public class RotateOverNetwork : MonoBehaviour
 
     public void HandleSensor1Data(MessageContainer container)
     {
-        // @TODO        
+            var msg1 = MsgBinUintS1.Unpack(container);
     }
 
     // Messagehandler for middle Sensor equivalent to confirm

@@ -18,9 +18,9 @@ public class RotateOverNetwork : MonoBehaviour
     public enum AppStates
     {
         Default = 0,
-        Calendar = 1,
+        Weather = 1,
         Graph = 2,
-        Weather = 3
+        Documents = 3
     }
     public AppStates currentAppState;
 
@@ -33,7 +33,6 @@ public class RotateOverNetwork : MonoBehaviour
         NetworkServer.Instance.RegisterMessageHandler(MessageContainer.MessageType.Sensor2, HandleSensor2Data);
         NetworkServer.Instance.RegisterMessageHandler(MessageContainer.MessageType.Sensor3, HandleSensor3Data);
         NetworkServer.Instance.RegisterMessageHandler(MessageContainer.MessageType.Sensor4, HandleSensor4Data);
-        NetworkServer.Instance.RegisterMessageHandler(MessageContainer.MessageType.StateChange, SetAppState);
     }
 
     //
@@ -97,23 +96,21 @@ public class RotateOverNetwork : MonoBehaviour
     /*  If you send an int from the watch representing the state like we do in the Arduinopart
      *  Call This function to set the State so, HandleConfirmButtonPress() selects the correct behaviour
      */
-    public void SetAppState(MessageContainer container)
+    public void SetAppState(int state)
     {
-        uint receivedAppState = MsgBinUintState.Unpack(container).Data;
-        
-        switch (receivedAppState)
+        switch (state)
         {
             case 0:
                 currentAppState = AppStates.Default;
                 break;
             case 1:
-                currentAppState = AppStates.Calendar;
+                currentAppState = AppStates.Weather;
                 break;
             case 2:
                 currentAppState = AppStates.Graph;
                 break;
             case 3:
-                currentAppState = AppStates.Weather;
+                currentAppState = AppStates.Documents;
                 break;
             default:
                 // unknown state
@@ -135,14 +132,14 @@ public class RotateOverNetwork : MonoBehaviour
         {
             switch (currentAppState)
             {
-                case AppStates.Calendar:
-                    HandleCalenderAppConfirmPress();
+                case AppStates.Weather:
+                    HandleWeatherAppConfirmPress();
                     break;
                 case AppStates.Graph:
                     HandleGraphAppConfirmPress();
                     break;
-                case AppStates.Weather:
-                    HandleWeatherAppConfirmPress();
+                case AppStates.Documents:
+                    HandleDocumentsAppConfirmPress();
                     break;
                 default:
                     HandleDefaultConfirmPress();
@@ -155,14 +152,14 @@ public class RotateOverNetwork : MonoBehaviour
         {
             switch (currentAppState)
             {
-                case AppStates.Calendar:
-                    HandleCalenderAppFWDPress();
+                case AppStates.Weather:
+                    HandleWeatherAppFWDPress();
                     break;
                 case AppStates.Graph:
                     HandleGraphAppFWDPress();
                     break;
-                case AppStates.Weather:
-                    HandleWeatherAppFWDPress();
+                case AppStates.Documents:
+                    HandleDocumentsAppFWDPress();
                     break;
                 default:
                     HandleDefaultFWDButtonPress();
@@ -174,14 +171,14 @@ public class RotateOverNetwork : MonoBehaviour
         {
             switch (currentAppState)
             {
-                case AppStates.Calendar:
-                    HandleCalenderAppBWDPress();
+                case AppStates.Weather:
+                    HandleWeatherAppBWDPress();
                     break;
                 case AppStates.Graph:
                     HandleGraphAppBWDPress();
                     break;
-                case AppStates.Weather:
-                    HandleWeatherAppBWDPress();
+                case AppStates.Documents:
+                    HandleDocumentsAppBWDPress();
                     break;
                 default:
                     HandleDefaultBWDButtonPress();
@@ -193,14 +190,14 @@ public class RotateOverNetwork : MonoBehaviour
         {
             switch (currentAppState)
             {
-                case AppStates.Calendar:
-                    HandleCalenderAppBothPress();
+                case AppStates.Weather:
+                    HandleWeatherAppBothPress();
                     break;
                 case AppStates.Graph:
                     HandleGraphAppBothPress();
                     break;
-                case AppStates.Weather:
-                    HandleWeatherAppBothPress();
+                case AppStates.Documents:
+                    HandleDocumentsAppBothPress();
                     break;
                 default:
                     HandleDefaultBothButtonPress();
@@ -221,7 +218,7 @@ public class RotateOverNetwork : MonoBehaviour
         }
     }
 
-    public void HandleCalenderAppConfirmPress()
+    public void HandleDocumentsAppConfirmPress()
     {
         if (GetComponent<MeshRenderer>() != null)
         {
@@ -254,7 +251,7 @@ public class RotateOverNetwork : MonoBehaviour
         }
     }
 
-    public void HandleCalenderAppFWDPress()
+    public void HandleDocumentsAppFWDPress()
     {
         if (GetComponent<MeshRenderer>() != null)
         {
@@ -303,7 +300,7 @@ public class RotateOverNetwork : MonoBehaviour
         } 
     }
 
-    public void HandleCalenderAppBWDPress()
+    public void HandleDocumentsAppBWDPress()
     {
         if (GetComponent<MeshRenderer>() != null)
         {
@@ -337,7 +334,7 @@ public class RotateOverNetwork : MonoBehaviour
         } 
     }
 
-    public void HandleCalenderAppBothPress()
+    public void HandleDocumentsAppBothPress()
     {
          if (GetComponent<MeshRenderer>() != null)
         {

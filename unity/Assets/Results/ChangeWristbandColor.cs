@@ -18,11 +18,12 @@ public class ChangeWristbandColor : MonoBehaviour
     public enum AppStates
     {
         Default = 0,
-        Calendar = 1,
+        Weather = 1,
         Graph = 2,
-        Weather = 3
+        Documents = 3
     }
     public AppStates currentAppState;
+    public int currentAppInt = 0;
 
     private int s1MsgCount = 0;
 
@@ -34,7 +35,6 @@ public class ChangeWristbandColor : MonoBehaviour
         NetworkServer.Instance.RegisterMessageHandler(MessageContainer.MessageType.Sensor2, HandleSensor2Data);
         NetworkServer.Instance.RegisterMessageHandler(MessageContainer.MessageType.Sensor3, HandleSensor3Data);
         NetworkServer.Instance.RegisterMessageHandler(MessageContainer.MessageType.Sensor4, HandleSensor4Data);
-        NetworkServer.Instance.RegisterMessageHandler(MessageContainer.MessageType.StateChange, SetAppState);
     }
 
     //
@@ -98,18 +98,16 @@ public class ChangeWristbandColor : MonoBehaviour
     /*  If you send an int from the watch representing the state like we do in the Arduinopart
      *  Call This function to set the State so, HandleConfirmButtonPress() selects the correct behaviour
      */
-    public void SetAppState(MessageContainer container)
+    public void SetAppState(int state)
     {
-        uint receivedAppState = MsgBinUintState.Unpack(container).Data;
-        
-        switch (receivedAppState)
+        switch (state)
         {
             case 0:
                 currentAppState = AppStates.Default;
                 GetComponent<MeshRenderer>().material.color = new Color(0.0f, 0.0f, 0.0f);
                 break;
             case 1:
-                currentAppState = AppStates.Calendar;
+                currentAppState = AppStates.Weather;
                 GetComponent<MeshRenderer>().material.color = new Color(0.910f, 0.639f, 0.090f);
                 break;
             case 2:
@@ -117,8 +115,8 @@ public class ChangeWristbandColor : MonoBehaviour
                 GetComponent<MeshRenderer>().material.color = new Color(0.494f, 0.098f, 0.106f);
                 break;
             case 3:
-                currentAppState = AppStates.Weather;
-                GetComponent<MeshRenderer>().material.color = new Color(0.910f, 0.639f, 0.090f);
+                currentAppState = AppStates.Documents;
+                GetComponent<MeshRenderer>().material.color = new Color(0.043f, 0.4f, 0.137f);
                 break;
             default:
                 // unknown state
@@ -140,14 +138,14 @@ public class ChangeWristbandColor : MonoBehaviour
         {
             switch (currentAppState)
             {
-                case AppStates.Calendar:
-                    HandleCalenderAppConfirmPress();
+                case AppStates.Weather:
+                    HandleWeatherAppConfirmPress();
                     break;
                 case AppStates.Graph:
                     HandleGraphAppConfirmPress();
                     break;
-                case AppStates.Weather:
-                    HandleWeatherAppConfirmPress();
+                case AppStates.Documents:
+                    HandleDocumentsAppConfirmPress();
                     break;
                 default:
                     HandleDefaultConfirmPress();
@@ -160,14 +158,14 @@ public class ChangeWristbandColor : MonoBehaviour
         {
             switch (currentAppState)
             {
-                case AppStates.Calendar:
-                    HandleCalenderAppFWDPress();
+                case AppStates.Weather:
+                    HandleWeatherAppFWDPress();
                     break;
                 case AppStates.Graph:
                     HandleGraphAppFWDPress();
                     break;
-                case AppStates.Weather:
-                    HandleWeatherAppFWDPress();
+                case AppStates.Documents:
+                    HandleDocumentsAppFWDPress();
                     break;
                 default:
                     HandleDefaultFWDButtonPress();
@@ -179,14 +177,14 @@ public class ChangeWristbandColor : MonoBehaviour
         {
             switch (currentAppState)
             {
-                case AppStates.Calendar:
-                    HandleCalenderAppBWDPress();
+                case AppStates.Weather:
+                    HandleWeatherAppBWDPress();
                     break;
                 case AppStates.Graph:
                     HandleGraphAppBWDPress();
                     break;
-                case AppStates.Weather:
-                    HandleWeatherAppBWDPress();
+                case AppStates.Documents:
+                    HandleDocumentsAppBWDPress();
                     break;
                 default:
                     HandleDefaultBWDButtonPress();
@@ -198,14 +196,14 @@ public class ChangeWristbandColor : MonoBehaviour
         {
             switch (currentAppState)
             {
-                case AppStates.Calendar:
-                    HandleCalenderAppBothPress();
+                case AppStates.Weather:
+                    HandleWeatherAppBothPress();
                     break;
                 case AppStates.Graph:
                     HandleGraphAppBothPress();
                     break;
-                case AppStates.Weather:
-                    HandleWeatherAppBothPress();
+                case AppStates.Documents:
+                    HandleDocumentsAppBothPress();
                     break;
                 default:
                     HandleDefaultBothButtonPress();
@@ -223,7 +221,7 @@ public class ChangeWristbandColor : MonoBehaviour
         // do nothing for now
     }
 
-    public void HandleCalenderAppConfirmPress()
+    public void HandleDocumentsAppConfirmPress()
     {
         // do nothing for now
     }
@@ -244,7 +242,7 @@ public class ChangeWristbandColor : MonoBehaviour
         // do nothing for now
     }
 
-    public void HandleCalenderAppFWDPress()
+    public void HandleDocumentsAppFWDPress()
     {
         // do nothing for now
     }
@@ -266,7 +264,7 @@ public class ChangeWristbandColor : MonoBehaviour
         // do nothing for now
     }
 
-    public void HandleCalenderAppBWDPress()
+    public void HandleDocumentsAppBWDPress()
     {
         // do nothing for now
     }
@@ -288,7 +286,7 @@ public class ChangeWristbandColor : MonoBehaviour
         // do nothing for now
     }
 
-    public void HandleCalenderAppBothPress()
+    public void HandleDocumentsAppBothPress()
     {
         // do nothing for now
     }
@@ -305,6 +303,10 @@ public class ChangeWristbandColor : MonoBehaviour
     // this thing exist :)
     void Update()
     {
-
+        if(currentAppInt != StateChanges.getState())
+        {
+           currentAppInt = StateChanges.getState(); 
+           SetAppState(currentAppInt);
+        }
     }
 }

@@ -11,7 +11,8 @@ public class WebSocket_watch_communication : MonoBehaviour
     void Start()
     {
         // Erstellen und Starten des WebSocket-Servers
-        wssv = new WebSocketServer("ws://192.168.2.142:12345");
+        //wssv = new WebSocketServer("ws://192.168.2.142:12345");
+        wssv = new WebSocketServer("ws://141.76.67.226:12345");
         wssv.AddWebSocketService<MyWebSocketService>("/MyService");
         wssv.Start();
 
@@ -35,6 +36,7 @@ public class WebSocket_watch_communication : MonoBehaviour
         {
             Debug.Log("Nachricht erhalten: " + e.Data);
             // Hier können Sie die empfangenen Daten verarbeiten
+            StateChanges.SetAppState(int.Parse(e.Data));
         }
     }
 }

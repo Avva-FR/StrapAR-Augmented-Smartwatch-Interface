@@ -238,6 +238,7 @@ MonoBehaviour:
   bwdButtonPressed: 0
   newColor: {r: 1, g: 0, b: 0, a: 1}
   currentAppState: 0
+  currentAppInt: 0
 --- !u!1 &924451751 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 540486793339081859, guid: 0bb73b8026f4f4edeac6d4590f2533b4, type: 3}
@@ -260,6 +261,7 @@ MonoBehaviour:
   bwdButtonPressed: 0
   pageZoomActive: 0
   currentPage: 0
+  currentAppInt: 0
   newColor: {r: 1, g: 0, b: 0, a: 1}
   currentAppState: 0
 --- !u!1 &963194225
@@ -485,6 +487,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1961378549}
   - component: {fileID: 1961378548}
+  - component: {fileID: 1961378550}
   m_Layer: 0
   m_Name: Networking
   m_TagString: Untagged
@@ -521,3 +524,15 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1961378550
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1961378547}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f25286668feda4737b26b224e4733796, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

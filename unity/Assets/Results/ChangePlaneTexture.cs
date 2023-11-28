@@ -13,6 +13,7 @@ public class ChangePlaneTexture : MonoBehaviour
     public bool pageZoomActive = false;
 
     public int currentPage = 0;
+    public int currentAppInt = 0;
 
     //debug
     public Color newColor = Color.red;
@@ -21,9 +22,9 @@ public class ChangePlaneTexture : MonoBehaviour
     public enum AppStates
     {
         Default = 0,
-        Calendar = 1,
+        Weather = 1,
         Graph = 2,
-        Weather = 3
+        Documents = 3
     }
     public AppStates currentAppState;
 
@@ -37,7 +38,6 @@ public class ChangePlaneTexture : MonoBehaviour
         NetworkServer.Instance.RegisterMessageHandler(MessageContainer.MessageType.Sensor2, HandleSensor2Data);
         NetworkServer.Instance.RegisterMessageHandler(MessageContainer.MessageType.Sensor3, HandleSensor3Data);
         NetworkServer.Instance.RegisterMessageHandler(MessageContainer.MessageType.Sensor4, HandleSensor3Data);
-        NetworkServer.Instance.RegisterMessageHandler(MessageContainer.MessageType.StateChange, SetAppState);
     }
 
     //
@@ -101,11 +101,9 @@ public class ChangePlaneTexture : MonoBehaviour
     /*  If you send an int from the watch representing the state like we do in the Arduinopart
      *  Call This function to set the State so, HandleConfirmButtonPress() selects the correct behaviour
      */
-    public void SetAppState(MessageContainer container)
+    public void SetAppState(int state)
     {
-        uint receivedAppState = MsgBinUintState.Unpack(container).Data;
-        
-        switch (receivedAppState)
+        switch (state)
         {
             case 0:
                 currentAppState = AppStates.Default;
@@ -113,7 +111,7 @@ public class ChangePlaneTexture : MonoBehaviour
                 currentPage = 0;
                 break;
             case 1:
-                currentAppState = AppStates.Calendar;
+                currentAppState = AppStates.Weather;
                 GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/weather"));
                 currentPage = 0;
                 break;
@@ -123,8 +121,8 @@ public class ChangePlaneTexture : MonoBehaviour
                 currentPage = 0;
                 break;
             case 3:
-                currentAppState = AppStates.Weather;
-                GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/weather"));
+                currentAppState = AppStates.Documents;
+                GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/documents"));
                 currentPage = 0;
                 break;
             default:
@@ -149,14 +147,14 @@ public class ChangePlaneTexture : MonoBehaviour
             pageZoomActive = false;
             switch (currentAppState)
             {
-                case AppStates.Calendar:
-                    HandleCalenderAppConfirmPress();
+                case AppStates.Weather:
+                    HandleWeatherAppConfirmPress();
                     break;
                 case AppStates.Graph:
                     HandleGraphAppConfirmPress();
                     break;
-                case AppStates.Weather:
-                    HandleWeatherAppConfirmPress();
+                case AppStates.Documents:
+                    HandleDocumentsAppConfirmPress();
                     break;
                 default:
                     HandleDefaultConfirmPress();
@@ -169,14 +167,14 @@ public class ChangePlaneTexture : MonoBehaviour
         {
             switch (currentAppState)
             {
-                case AppStates.Calendar:
-                    HandleCalenderAppFWDPress();
+                case AppStates.Weather:
+                    HandleWeatherAppFWDPress();
                     break;
                 case AppStates.Graph:
                     HandleGraphAppFWDPress();
                     break;
-                case AppStates.Weather:
-                    HandleWeatherAppFWDPress();
+                case AppStates.Documents:
+                    HandleDocumentsAppFWDPress();
                     break;
                 default:
                     HandleDefaultFWDButtonPress();
@@ -190,14 +188,14 @@ public class ChangePlaneTexture : MonoBehaviour
             pageZoomActive = false;
             switch (currentAppState)
             {
-                case AppStates.Calendar:
-                    HandleCalenderAppBWDPress();
+                case AppStates.Weather:
+                    HandleWeatherAppBWDPress();
                     break;
                 case AppStates.Graph:
                     HandleGraphAppBWDPress();
                     break;
-                case AppStates.Weather:
-                    HandleWeatherAppBWDPress();
+                case AppStates.Documents:
+                    HandleDocumentsAppBWDPress();
                     break;
                 default:
                     HandleDefaultBWDButtonPress();
@@ -211,14 +209,14 @@ public class ChangePlaneTexture : MonoBehaviour
             pageZoomActive = false;
             switch (currentAppState)
             {
-                case AppStates.Calendar:
-                    HandleCalenderAppBothPress();
+                case AppStates.Weather:
+                    HandleWeatherAppBothPress();
                     break;
                 case AppStates.Graph:
                     HandleGraphAppBothPress();
                     break;
-                case AppStates.Weather:
-                    HandleWeatherAppBothPress();
+                case AppStates.Documents:
+                    HandleDocumentsAppBothPress();
                     break;
                 default:
                     HandleDefaultBothButtonPress();
@@ -238,26 +236,9 @@ public class ChangePlaneTexture : MonoBehaviour
         GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/start_0"));
     }
 
-    public void HandleCalenderAppConfirmPress()
+    public void HandleDocumentsAppConfirmPress()
     {
-        switch (currentPage)
-        {
-            case 0:
-               GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/page1")); 
-               currentPage = 1;
-               break;
-            case 1:
-               GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/page2")); 
-               currentPage = 2;
-               break;
-            case 2:
-               GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/page3")); 
-               currentPage = 3;
-               break;
-            default:
-               // do nothing 
-               break;
-        }
+        GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/documents_0"));
     }
     public void HandleGraphAppConfirmPress()
     {
@@ -295,7 +276,12 @@ public class ChangePlaneTexture : MonoBehaviour
         GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/start_1"));
     }
 
-    public void HandleCalenderAppFWDPress()
+    public void HandleDocumentsAppFWDPress()
+    {
+        GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/documents_1"));
+    }
+
+    public void HandleWeatherAppFWDPress()
     {
         switch (currentPage)
         {
@@ -340,14 +326,6 @@ public class ChangePlaneTexture : MonoBehaviour
                break;
         }
     }
-
-    public void HandleWeatherAppFWDPress()
-    {
-        if (GetComponent<MeshRenderer>() != null)
-        {
-            GetComponent<MeshRenderer>().material.color = new Color(0.980f, 0.855f, 0.369f);
-        }
-    }
     public void HandleGraphAppFWDPress()
     {
         GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/graph_1"));
@@ -363,22 +341,9 @@ public class ChangePlaneTexture : MonoBehaviour
         GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/start_2"));
     }
 
-    public void HandleCalenderAppBWDPress()
+    public void HandleDocumentsAppBWDPress()
     {
-        switch (currentPage)
-        {
-            case 2:
-               GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/page1")); 
-               currentPage = 1;
-               break;
-            case 3:
-               GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/page2")); 
-               currentPage = 2;
-               break;
-            default:
-               // do nothing 
-               break;
-        }
+        GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/documents_2"));
     }
 
     public void HandleWeatherAppBWDPress()
@@ -413,18 +378,9 @@ public class ChangePlaneTexture : MonoBehaviour
         GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/start_3"));
     }
 
-    public void HandleCalenderAppBothPress()
+    public void HandleDocumentsAppBothPress()
     {
-        switch (currentPage)
-        {
-            case 0:
-               // do nothing
-               break;
-            default:
-               GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/weather"));
-                currentPage = 0;
-               break;
-        }
+        GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/documents_3"));
     }
 
     public void HandleWeatherAppBothPress()
@@ -448,6 +404,10 @@ public class ChangePlaneTexture : MonoBehaviour
     // this thing exist :)
     void Update()
     {
-
+        if(currentAppInt != StateChanges.getState())
+        {
+           currentAppInt = StateChanges.getState(); 
+           SetAppState(currentAppInt);
+        }
     }
 }

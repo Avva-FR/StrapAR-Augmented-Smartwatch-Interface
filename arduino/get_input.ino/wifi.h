@@ -1,5 +1,5 @@
 // Network Credentials
 #ifndef STASSID
-#define STASSID "IMLD"
-#define STAPSK "IMLDwifi"
+#define STASSID "IMLDLab"
+#define STAPSK "deadl1ne13"
 #endif

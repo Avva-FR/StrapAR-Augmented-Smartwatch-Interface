@@ -17,7 +17,7 @@ const char* ssid = STASSID;
 const char* password = STAPSK;
 // home
 //const char* host = "192.168.178.30";
-const char* host = "192.168.0.105";
+const char* host = "141.76.67.187";
 const int16_t port = 11337;
 
 uint16_t val_array[5];
@@ -39,7 +39,7 @@ void setup() {
     while (1);
   }
   
-  /* 
+   
   //Setup connection
   WiFi.mode(WIFI_STA);
   WiFiMulti.addAP(ssid, password);
@@ -73,9 +73,7 @@ void setup() {
 
   Serial.println("TCP connection successful");
 }
-*/
-  
-}
+
 
 void loop() {
   // put your main code here, to run repeatedly:
@@ -114,9 +112,10 @@ void loop() {
         Serial.println(i);
         Serial.println("doubletap");
       } else {
-      //sendTCP_MSG_uint16(i, val_array[i], true);
-      Serial.println(i);
-      Serial.println("single press and release");
+        // send single msg static value of 400
+        sendTCP_MSG_uint16(i, 400, true);
+        Serial.println(i);
+        Serial.println("single press and release");
       }
       last_release_time[i] = current_time;
       sensor_pressed[i] = false;

@@ -6,10 +6,20 @@ using System;
 
 public class HandleSensorData : MonoBehaviour
 {
-    public bool confirmPressed = false;
     public bool fwdButtonPressed = false;
-    public bool bwdButtonPressed = false;
+    public bool fwdDoublePress = false;
+    public int fwdTapCount = 0;
 
+    public bool confirmPressed = false;
+    public bool confirmDoublePress = false;
+    public int confirmTapCount = 0;
+
+    public bool bwdButtonPressed = false;
+    public bool bwdDoublePress = false;
+    public int bwdTapCount = 0;
+
+    public float doubleTapTimer = 0.5f;
+    public bool isCoroutineRunning = false;
     // set these when AppStatechanges are received
     public enum AppStates
     {
@@ -20,32 +30,69 @@ public class HandleSensorData : MonoBehaviour
     }
     public AppStates currentAppState;
 
-    private int s1MsgCount = 0;
-
     void Start()
     {
         NetworkServer.Instance.RegisterMessageHandler(MessageContainer.MessageType.Sensor0, HandleSensor0Data);
-        NetworkServer.Instance.RegisterMessageHandler(MessageContainer.MessageType.Sensor1, HandleSensor1Data);
         NetworkServer.Instance.RegisterMessageHandler(MessageContainer.MessageType.Sensor2, HandleSensor2Data);
-        NetworkServer.Instance.RegisterMessageHandler(MessageContainer.MessageType.Sensor3, HandleSensor3Data);
         NetworkServer.Instance.RegisterMessageHandler(MessageContainer.MessageType.Sensor4, HandleSensor3Data);
     }
 
+    private IEnumerator InputCoroutine(int context)
+    {
+        isCoroutineRunning = true;
+        yield return new WaitForSeconds(doubleTapTimer);
+        isCoroutineRunning = false;
+
+        switch (context)
+        {
+            case 0:
+                if (fwdTapCount >= 2)
+                {
+                    fwdDoublePress = true;
+                } else
+                {
+                    fwdButtonPressed = true;
+                }
+                fwdTapCount = 0;
+                break;
+            case 2:
+                if (confirmTapCount >= 2)
+                {
+                    confirmDoublePress = true;
+                }
+                else
+                {
+                    confirmPressed = true;
+                }
+                confirmTapCount = 0;
+                break;
+                
+            case 4:
+                if (bwdTapCount >= 2)
+                {
+                    bwdDoublePress = true;
+                }
+                else
+                {
+                    bwdButtonPressed = true;
+                }
+                bwdTapCount = 0;
+                break;
+        }    
+}
+
+    // Sensor 1 recv Handler
     public void HandleSensor0Data(MessageContainer container)
     {
         var messageS0 = MsgBinUintS0.Unpack(container);
         uint data0 = messageS0.Data;
         Debug.Log("recv Sensor0 data: " + data0);
-        s1MsgCount++;
-        // implement a timer for double tap
-        fwdButtonPressed = true;
+        fwdTapCount++;
+        if (!isCoroutineRunning)
+        {
+            StartCoroutine(InputCoroutine(0));
+        }
         HandleButtonPress();
-
-    }
-
-    public void HandleSensor1Data(MessageContainer container)
-    {
-        // @TODO        
     }
 
     // Messagehandler for middle Sensor equivalent to confirm
@@ -55,14 +102,12 @@ public class HandleSensorData : MonoBehaviour
         var messageS2 = MsgBinUintS2.Unpack(container);
         uint data2 = messageS2.Data;
         Debug.Log("recv Sensor2 data: " + data2);
-  
-        confirmPressed = true;
+        confirmTapCount++;
+        if (!isCoroutineRunning)
+        {
+            StartCoroutine(InputCoroutine(2));
+        }
         HandleButtonPress();
-    }
-
-    public void HandleSensor3Data(MessageContainer container)
-    {
-        // @TODO
     }
 
     public void HandleSensor4Data(MessageContainer container)
@@ -70,18 +115,13 @@ public class HandleSensorData : MonoBehaviour
         var messageS4 = MsgBinUintS4.Unpack(container);
         uint data4 = messageS4.Data;
         Debug.Log("recv Sensor4 data: " + data4);
-
-        bwdButtonPressed = true;
+        bwdTapCount++;
+        if (!isCoroutineRunning)
+        {
+            StartCoroutine(InputCoroutine(4));
+        }
         HandleButtonPress();
-
     }
-
-
-
-
-
-
-
 
     /*  If you send an int from the watch representing the state like we do in the Arduinopart
      *  Call This function to set the State so, HandleConfirmButtonPress() selects the correct behaviour
@@ -108,16 +148,10 @@ public class HandleSensorData : MonoBehaviour
         }
     }
 
-
-
-
-
-
-    // verbose piece of shit 
-    //
     // confirm button behaviour selector
     public void HandleButtonPress()
     {
+        // confirm button presses
         if (confirmPressed)
         {
             switch (currentAppState)
@@ -135,10 +169,29 @@ public class HandleSensorData : MonoBehaviour
                     HandleDefaultConfirmPress();
                     break;
             }
-            // Reset
             confirmPressed = false;
-        } 
-        else if (fwdButtonPressed & !bwdButtonPressed)
+        }
+        else if (confirmDoublePress & !bwdButtonPressed & !fwdButtonPressed)
+        {
+            switch (currentAppState)
+            {
+                case AppStates.Weather:
+                    HandleWeatherAppConfirmDoublePress();
+                    break;
+                case AppStates.Graph:
+                    HandleGraphAppConfirmDoublePress();
+                    break;
+                case AppStates.Documents:
+                    HandleDocumentsAppConfirmDoublePress();
+                    break;
+                default:
+                    HandleDefaultConfirmDoublePress();
+                    break;
+            }
+            confirmDoublePress = false;
+        }
+        //  forward button presses
+        else if (fwdButtonPressed & !bwdButtonPressed & !confirmPressed)
         {
             switch (currentAppState)
             {
@@ -156,7 +209,28 @@ public class HandleSensorData : MonoBehaviour
                     break;
             }
             fwdButtonPressed = false;
-        } else if (bwdButtonPressed & !fwdButtonPressed)
+        }
+        else if (fwdDoublePress & !confirmPressed & !bwdButtonPressed)
+        {
+            switch (currentAppState)
+            {
+                case AppStates.Weather:
+                    HandleWeatherAppFWDDoublePress();
+                    break;
+                case AppStates.Graph:
+                    HandleGraphAppFWDDoublePress();
+                    break;
+                case AppStates.Documents:
+                    HandleDocumentsAppFWDDoublePress();
+                    break;
+                default:
+                    HandleDefaultFWDDoubleButtonPress();
+                    break;
+            }
+            fwdDoublePress = false;
+        }
+        // backwards button presses
+        else if (bwdButtonPressed & !fwdButtonPressed & !confirmPressed)
         {
             switch (currentAppState)
             {
@@ -175,6 +249,26 @@ public class HandleSensorData : MonoBehaviour
             }
             bwdButtonPressed = false;
         }
+        else if (bwdDoublePress & !confirmPressed & !fwdButtonPressed)
+        {
+            switch (currentAppState)
+            {
+                case AppStates.Weather:
+                    HandleWeatherAppBWDDoublePress();
+                    break;
+                case AppStates.Graph:
+                    HandleGraphAppBWDDoublePress();
+                    break;
+                case AppStates.Documents:
+                    HandleDocumentsAppBWDDoublePress();
+                    break;
+                default:
+                    HandleDefaultBWDButtonDoublePress();
+                    break;
+            }
+            bwdDoublePress = false;
+        }
+        // unused
         else if (fwdButtonPressed & bwdButtonPressed)
         {
             switch (currentAppState)
@@ -197,9 +291,60 @@ public class HandleSensorData : MonoBehaviour
         }
     }
 
+    // Confirm Double Taps
+    // use this to exit input modalities
+    public void HandleWeatherAppConfirmDoublePress()
+    {
+        //@TODO
+    }
+    public void HandleGraphAppConfirmDoublePress()
+    {
+        //@TODO
+    }
+    public void HandleDefaultConfirmDoublePress()
+    {
+        //@TODO
+    }
+    public void HandleDocumentsAppConfirmDoublePress()
+    {
+        //@TODO
+    }
+    // Forward Double Taps
+    public void HandleWeatherAppFWDDoublePress()
+    {
+        //@TODO
+    }
+    public void HandleGraphAppFWDDoublePress()
+    {
+        //@TODO
+    }
+    public void HandleDocumentsAppFWDDoublePress()
+    {
+        //@TODO
+    }
+    public void HandleDefaultFWDDoubleButtonPress()
+    {
+        //@TODO
+    }
+    public void HandleWeatherAppBWDDoublePress()
+    {
+        //@TODO
+    }
+    public void HandleGraphAppBWDDoublePress()
+    {
+        //@TODO
+    }
+    public void HandleDocumentsAppBWDDoublePress()
+    {
+        //@TODO
+    }
+    public void HandleDefaultBWDButtonDoublePress()
+    {
+        //@TODO
+    }
 
-    // @TODO implement specific behaviour
-    public void HandleDefaultConfirmPress()
+// Confirm Button Press Handler
+public void HandleDefaultConfirmPress()
     {
         if (GetComponent<MeshRenderer>() != null)
         {
@@ -314,7 +459,7 @@ public class HandleSensorData : MonoBehaviour
 
     //
     // Both (forward and backward) Button Press Handlers
-    //
+    // leave this as is for now or implement timer based detection
     public void HandleDefaultBothButtonPress()
     {
         if (GetComponent<MeshRenderer>() != null)
@@ -346,9 +491,7 @@ public class HandleSensorData : MonoBehaviour
         } 
     }
 
-    // this thing exist :)
     void Update()
     {
-
     }
 }

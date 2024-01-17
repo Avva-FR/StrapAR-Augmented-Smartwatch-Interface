@@ -14,6 +14,9 @@ public class ChangePlaneTexture : MonoBehaviour
 
     public int currentPage = 0;
     public int currentAppInt = 0;
+    public string activeDocument = "";
+    public bool insideMenu = true;
+    public bool insideAppMenu = false;
 
     //debug
     public Color newColor = Color.red;
@@ -108,21 +111,33 @@ public class ChangePlaneTexture : MonoBehaviour
             case 0:
                 currentAppState = AppStates.Default;
                 GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/start"));
+                insideMenu = true;
+                insideAppMenu = false;
+                activeDocument = "";
                 currentPage = 0;
                 break;
             case 1:
                 currentAppState = AppStates.Weather;
                 GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/weather"));
+                insideMenu = true;
+                insideAppMenu = false;
+                activeDocument = "";
                 currentPage = 0;
                 break;
             case 2:
                 currentAppState = AppStates.Graph;
                 GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/graph"));
+                insideMenu = true;
+                insideAppMenu = false;
+                activeDocument = "";
                 currentPage = 0;
                 break;
             case 3:
                 currentAppState = AppStates.Documents;
                 GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/documents"));
+                insideMenu = true;
+                insideAppMenu = false;
+                activeDocument = "";
                 currentPage = 0;
                 break;
             default:
@@ -238,7 +253,44 @@ public class ChangePlaneTexture : MonoBehaviour
 
     public void HandleDocumentsAppConfirmPress()
     {
-        GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/documents_0"));
+        if(insideMenu)
+        {
+            insideMenu = false;
+            insideAppMenu = true;
+            GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/documents_app/documents_interface_0")); 
+        } 
+        else if (insideAppMenu)
+        {
+            switch (currentPage)
+            {
+                case 0:
+                    GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/documents_app/Goethe_0")); 
+                    insideAppMenu = false;
+                    activeDocument = "Goethe";
+                    break;
+                case 1:
+                    GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/documents_app/Liste_0")); 
+                    insideAppMenu = false;
+                    activeDocument = "Liste";
+                    currentPage = 0;
+                    break;
+                case 2:
+                    GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/documents_app/Frosch")); 
+                    insideAppMenu = false;
+                    activeDocument = "Frosch";
+                    currentPage = 0;
+                    break;
+                case 3:
+                    GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/documents_app/Lorem_0")); 
+                    insideAppMenu = false;
+                    activeDocument = "Lorem";
+                    currentPage = 0;
+                    break;
+                default:
+                    // do nothing 
+                    break;
+            } 
+        }
     }
     public void HandleGraphAppConfirmPress()
     {
@@ -249,15 +301,15 @@ public class ChangePlaneTexture : MonoBehaviour
        switch (currentPage)
         {
             case 0:
-               GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/page1")); 
+               GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/weather_app/page1")); 
                currentPage = 1;
                break;
             case 1:
-               GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/page2")); 
+               GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/weather_app/page2")); 
                currentPage = 2;
                break;
             case 2:
-               GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/page3")); 
+               GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/weather_app/page3")); 
                currentPage = 3;
                break;
             default:
@@ -278,7 +330,61 @@ public class ChangePlaneTexture : MonoBehaviour
 
     public void HandleDocumentsAppFWDPress()
     {
-        GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/documents_1"));
+        if(insideAppMenu)
+        {
+            switch (currentPage)
+            {
+                case 0:
+                    GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/documents_app/documents_interface_1")); 
+                    currentPage = 1;
+                    break;
+                case 1:
+                    GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/documents_app/documents_interface_2")); 
+                    currentPage = 2;
+                    break;
+                case 2:
+                    GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/documents_app/documents_interface_3")); 
+                    currentPage = 3;
+                    break;
+                case 3:
+                    GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/documents_app/documents_interface_0")); 
+                    currentPage = 0;
+                    break;
+                default:
+                    // do nothing 
+                    break;
+            } 
+        } 
+        else if(!insideMenu && !insideAppMenu)
+        {
+           switch (activeDocument)
+            {
+                case "Goethe":
+                    if(currentPage + 1 <= 2)
+                    {
+                        currentPage = currentPage + 1;
+                        GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/documents_app/Goethe_" + currentPage));
+                    }
+                    break;
+                case "Liste":
+                    if(currentPage + 1 <= 2)
+                    {
+                        currentPage = currentPage + 1;
+                        GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/documents_app/Liste_" + currentPage));
+                    }
+                    break;
+                 case "Lorem":
+                    if(currentPage + 1 <= 17)
+                    {
+                        currentPage = currentPage + 1;
+                        GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/documents_app/Lorem_" + currentPage));
+                    }
+                    break;
+                default:
+                    // do nothing 
+                    break;
+            }  
+        }
     }
 
     public void HandleWeatherAppFWDPress()
@@ -288,36 +394,36 @@ public class ChangePlaneTexture : MonoBehaviour
             case 1:
                 if(pageZoomActive)
                 {
-                   GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/page1")); 
+                   GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/weather_app/page1")); 
                    pageZoomActive = false;
                 }
                 else
                 {
-                   GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/page1_zoom"));
+                   GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/weather_app/page1_zoom"));
                    pageZoomActive = true; 
                 }
                break;
             case 2:
                if(pageZoomActive)
                 {
-                   GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/page2")); 
+                   GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/weather_app/page2")); 
                    pageZoomActive = false;
                 }
                 else
                 {
-                   GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/page2_zoom"));
+                   GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/weather_app/page2_zoom"));
                    pageZoomActive = true; 
                 }
                break;
             case 3:
                if(pageZoomActive)
                 {
-                   GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/page3")); 
+                   GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/weather_app/page3")); 
                    pageZoomActive = false;
                 }
                 else
                 {
-                   GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/page3_zoom"));
+                   GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/weather_app/page3_zoom"));
                    pageZoomActive = true; 
                 }
                break;
@@ -343,7 +449,83 @@ public class ChangePlaneTexture : MonoBehaviour
 
     public void HandleDocumentsAppBWDPress()
     {
-        GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/documents_2"));
+        if(insideAppMenu)
+        {
+            switch (currentPage)
+            {
+                case 0:
+                    GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/documents_app/documents_interface_3")); 
+                    currentPage = 3;
+                    break;
+                case 1:
+                    GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/documents_app/documents_interface_0")); 
+                    currentPage = 0;
+                    break;
+                case 2:
+                    GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/documents_app/documents_interface_1")); 
+                    currentPage = 1;
+                    break;
+                case 3:
+                    GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/documents_app/documents_interface_2")); 
+                    currentPage = 2;
+                    break;
+                default:
+                    // do nothing 
+                    break;
+            } 
+        } 
+        else if(!insideMenu && !insideAppMenu)
+        {
+           switch (activeDocument)
+            {
+                case "Goethe":
+                    if(currentPage - 1 >= 0)
+                    {
+                        currentPage = currentPage - 1;
+                        GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/documents_app/Goethe_" + currentPage));
+                    }
+                    else
+                    {
+                        GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/documents_app/documents_interface_0"));
+                        currentPage = 0;
+                        insideAppMenu = true;
+                    }
+                    break;
+                case "Liste":
+                    if(currentPage - 1 >= 0)
+                    {
+                        currentPage = currentPage - 1;
+                        GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/documents_app/Liste_" + currentPage));
+                    }
+                    else
+                    {
+                        GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/documents_app/documents_interface_1"));
+                        currentPage = 1;
+                        insideAppMenu = true;
+                    }
+                    break;
+                case "Frosch":
+                    GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/documents_app/documents_interface_2"));
+                    currentPage = 2;
+                    insideAppMenu = true;
+                case "Lorem":
+                    if(currentPage - 1 >= 0)
+                    {
+                        currentPage = currentPage - 1;
+                        GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/documents_app/Lorem_" + currentPage));
+                    }
+                    else
+                    {
+                        GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/documents_app/documents_interface_3"));
+                        currentPage = 3;
+                        insideAppMenu = true;
+                    }
+                    break;
+                default:
+                    // do nothing 
+                    break;
+            }  
+        }
     }
 
     public void HandleWeatherAppBWDPress()
@@ -351,11 +533,11 @@ public class ChangePlaneTexture : MonoBehaviour
         switch (currentPage)
         {
             case 2:
-               GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/page1")); 
+               GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/weather_app/page1")); 
                currentPage = 1;
                break;
             case 3:
-               GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/page2")); 
+               GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/weather_app/page2")); 
                currentPage = 2;
                break;
             default:
@@ -380,7 +562,14 @@ public class ChangePlaneTexture : MonoBehaviour
 
     public void HandleDocumentsAppBothPress()
     {
-        GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/documents_3"));
+        if(!insideMenu)
+        {
+            GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/documents"));
+            currentPage = 0; 
+            activeDocument = "";
+            insideMenu = true;
+            insideAppMenu = false;
+        }
     }
 
     public void HandleWeatherAppBothPress()
@@ -391,9 +580,9 @@ public class ChangePlaneTexture : MonoBehaviour
                // do nothing
                break;
             default:
-               GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/weather"));
+                GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/weather"));
                 currentPage = 0;
-               break;
+                break;
         }
     }
     public void HandleGraphAppBothPress()

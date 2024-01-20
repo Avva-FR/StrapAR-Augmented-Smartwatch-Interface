@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta name="viewport" content="width=device-width,user-scalable=no">
+	<title>Basic</title>
+	<link rel="stylesheet" href="lib/tau/wearable/theme/default/tau.min.css">
+	<link rel="stylesheet" media="all and (-tizen-geometric-shape: circle)" href="lib/tau/wearable/theme/default/tau.circle.min.css">
+	<!-- load theme file for your application -->
+	<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+	<div id="pageIndicatorPage" class="ui-page" data-enable-page-scroll="false">
+	<header class="ui-header" id="document_header">
+			<h2 class="ui-title" id="ui-title">Document</h2>
+			<!-- Log div anzeiges  -->
+  			<!-- <div id="logs">Logs: </div> -->
+		</header>
+		<div id="pageIndicator" class="ui-page-indicator ui-bottom"></div>
+		<div id="hsectionchanger" class="ui-content">
+		<div id="document" style="text-align:center">
+			<object type="image/svg+xml" data="file-solid.svg" class="logo" id="file">
+  					File-Symbol
+			</object>
+			<br>
+			<button onclick="back_home()">Home</button>
+		</div>
+		</div>
+	</div>
+	<script src="lib/tau/wearable/js/tau.min.js"></script>
+	<script src="js/network.js"></script>
+	<script src="js/app.js"></script>
+	<script src="js/lowBatteryCheck.js"></script>
+	<script src="js/circle-helper.js"></script>
+	<!-- <script src="js/pageIndicator.js"></script> -->
+	<script src="js/rotating_support.js"></script>
+	<script src="js/pageHandler.js"></script>
+</body>
+</html>

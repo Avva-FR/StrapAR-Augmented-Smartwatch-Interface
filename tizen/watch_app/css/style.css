@@ -1,0 +1,56 @@
+/* this file is left blank on purpose, if developer can't find classes he needs in framework, he can customize his
+app adding his own styles here
+ */
+
+object {
+    width: 50%;
+    height: auto;
+    margin-top: 40px; 
+}
+
+#file {
+    width: 20%;
+    height: auto; 
+}
+
+.logo {
+    width: 100px; 
+    height: auto; 
+}
+
+/* Stile für Buttons */
+button {
+    height: 100%;
+    all: unset;
+    background-color: lightgray; 
+    border-radius: 30px; 
+    padding: 10px 20px; 
+    margin-bottom: 20px; 
+    color: black; 
+    text-align: center; 
+}
+
+
+
+
+#main_title {
+    color: white;
+}
+
+#ui-title {
+	color: black;
+}
+
+#weather_header {
+	background-color: blue;
+}
+
+#document_header {
+	background-color: orange;
+}
+
+#stock_header {
+	background-color: red;
+}
+
+

@@ -37,7 +37,7 @@ public class WebSocket_watch_communication : MonoBehaviour
         {
             Debug.Log("Nachricht erhalten: " + e.Data);
             // Hier können Sie die empfangenen Daten verarbeiten
-            StateChanges.SetAppState(int.Parse(e.Data));
+            StateChanges.SetAppState((string)e.Data);
         }
     }
 }

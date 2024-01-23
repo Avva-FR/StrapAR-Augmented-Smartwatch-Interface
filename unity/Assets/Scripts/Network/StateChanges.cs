@@ -47,7 +47,7 @@ public static class StateChanges
         return currentAppState;
     }
 
-    public static int getRotation()
+    public static string getRotation()
     {
         return rotationDirection;
     }
@@ -57,7 +57,7 @@ public static class StateChanges
         rotationDirection = "";
     }
 
-    public static int getOpenedApp()
+    public static string getOpenedApp()
     {
         return appOpened;
     }

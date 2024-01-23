@@ -17,7 +17,7 @@ public class WebSocket_watch_communication : MonoBehaviour
         wssv.AddWebSocketService<MyWebSocketService>("/MyService");
         wssv.Start();
 
-        Debug.Log("WebSocket-Server gestartet auf ws://192.168.2.142:12345");
+        Debug.Log("WebSocket-Server gestartet auf ws://141.76.67.187:12345");
     }
 
     void OnApplicationQuit()

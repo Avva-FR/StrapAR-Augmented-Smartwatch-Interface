@@ -152,7 +152,7 @@ public class ChangePlaneTexture : MonoBehaviour
                 currentPage = 0;
                 break;
             default:
-                // unknown state
+                Debug.Log("keine Standart Seite");
                 break;
         }
     }
@@ -179,13 +179,14 @@ public class ChangePlaneTexture : MonoBehaviour
 
     // opens the first page of the corresponding app
     // "enters the app-menu"
-    public void SetOpenedApp(int appOpened)
+    public void SetOpenedApp(string appOpened)
     {
         switch (appOpened)
         {
             case "a1":
                 currentAppState = AppStates.Weather;
                 GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/weather_app/page1"));
+                currentPage = 1;
                 insideMenu = false;
                 insideAppMenu = true;
                 break;
@@ -678,6 +679,7 @@ public class ChangePlaneTexture : MonoBehaviour
                     GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/documents_app/documents_interface_2"));
                     currentPage = 2;
                     insideAppMenu = true;
+                    break;
                 case "Lorem":
                     if(currentPage - 1 >= 0)
                     {
@@ -840,13 +842,17 @@ public class ChangePlaneTexture : MonoBehaviour
             case 1:
                GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/weather_app/page2")); 
                currentPage = 2;
+                Debug.Log("case 1");
                break;
             case 2:
                GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/weather_app/page3")); 
                currentPage = 3;
+                Debug.Log("case 2");
                break;
             default:
-               // do nothing 
+                // do nothing 
+                Debug.Log("currentPage nicht richtig gesetzt!");
+                Debug.Log(currentPage);
                break;
         }
     }
@@ -902,6 +908,7 @@ public class ChangePlaneTexture : MonoBehaviour
                         GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/documents_app/Goethe_" + currentPage));
                         gameObject.transform.Find("PageIndicator").gameObject.GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/pageIndicator/pi_" + (currentPage + 1) + "4"));
                     }
+                    break;
                 case "Liste":
                     if(currentPage - 1 >= 0)
                     {
@@ -956,15 +963,17 @@ public class ChangePlaneTexture : MonoBehaviour
            currentAppInt = StateChanges.getState(); 
            SetAppState(currentAppInt);
         }
-        if(appOpened != StateChanges.getOpenedApp())
+        if(!appOpened.Equals(StateChanges.getOpenedApp()))
         {
            appOpened = StateChanges.getOpenedApp(); 
            SetOpenedApp(appOpened);
         }
-        if(rotationDirection != StateChanges.getRotation())
+        if(!rotationDirection.Equals(StateChanges.getRotation()))
         {
-           rotationDirection = StateChanges.getRotation(); 
-           SetRotation(rotationDirection);
+            Debug.Log(rotationDirection);
+           rotationDirection = StateChanges.getRotation();
+            StateChanges.resetRotation();
+            SetRotation(rotationDirection);
         }
     }
 }

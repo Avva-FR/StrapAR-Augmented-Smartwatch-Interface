@@ -178,7 +178,7 @@ public class ChangeBigPlaneTexture : MonoBehaviour
 
     // opens the first page of the corresponding app
     // "enters the app-menu"
-    public void SetOpenedApp(int appOpened)
+    public void SetOpenedApp(string appOpened)
     {
         switch (appOpened)
         {
@@ -836,10 +836,11 @@ public class ChangeBigPlaneTexture : MonoBehaviour
            appOpened = StateChanges.getOpenedApp(); 
            SetOpenedApp(appOpened);
         }
-        if(rotationDirection != StateChanges.getRotation())
+        if(!rotationDirection.Equals(StateChanges.getRotation()))
         {
-           rotationDirection = StateChanges.getRotation(); 
-           SetRotation(rotationDirection);
+           rotationDirection = StateChanges.getRotation();
+            Debug.Log("rotation received: " + rotationDirection);
+            SetRotation(rotationDirection);
         }
     }
 }

@@ -15,7 +15,6 @@ WiFiClient client;
 ESP8266WiFiMulti WiFiMulti;
 const char* ssid = STASSID;
 const char* password = STAPSK;
-// home
 //const char* host = "192.168.178.30";
 const char* host = "141.76.67.187";
 const int16_t port = 11337;
@@ -24,8 +23,9 @@ uint16_t val_array[5];
 bool sensor_pressed[5] = {false};
 // double tap window currently at 0.5 s
 unsigned long double_tap_timer = 1000;
+unsigned long current_time[5] = {0.0};
 unsigned long last_release_time[5] = {0};
-uint16_t pressure_treshhold = 700;
+uint16_t pressure_treshhold = 900;
 
 
 void setup() {
@@ -72,7 +72,9 @@ void setup() {
   }
 
   Serial.println("TCP connection successful");
+  
 }
+
 
 
 void loop() {
@@ -96,32 +98,32 @@ void loop() {
   /*
    * only send touchevents
    * type {0,...,4} corresponds to sensor values 0 to 4
-   */   
-
- 
+   */    
   for (int i = 0; i < 5; i++) {
-    if (val_array[i] > pressure_treshhold && !sensor_pressed[i]) {
-      sensor_pressed[i] = true;
-    } 
-    // send msg on release of the touch event
-    else if (val_array[i] <= pressure_treshhold && sensor_pressed[i]) {
-      unsigned long current_time = millis();
-      // send static value of 100 for a double tap event
-      if (current_time - last_release_time[i] <= double_tap_timer) {
-        //sendTCP_MSG_uint16(i, 100, true);
-        Serial.println(i);
-        Serial.println("doubletap");
-      } else {
-        // send single msg static value of 400
-        sendTCP_MSG_uint16(i, 400, true);
-        Serial.println(i);
-        Serial.println("single press and release");
+      if (val_array[i] > pressure_treshhold) {
+        sensor_pressed[i] = true;
+      } 
+      // send msg on release of the touch event
+      else if (val_array[i] <= pressure_treshhold && sensor_pressed[i]) {
+        unsigned long current_time = millis();
+        bool doubleTapDetected = false;
+        // send static value of 100 for a double tap event
+        if (current_time - last_release_time[i] <= double_tap_timer) {
+          //sendTCP_MSG_uint16(i, 100, true);
+          Serial.println(i);
+          Serial.println("doubletap");
+          doubleTapDetected = true;
+        }
+        if (!doubleTapDetected) {
+          // send single msg static value of 400
+          sendTCP_MSG_uint16(i, 400, true);
+          Serial.println(i);
+          Serial.println("single press and release");
+        }
+        last_release_time[i] = current_time;
+        sensor_pressed[i] = false;
       }
-      last_release_time[i] = current_time;
-      sensor_pressed[i] = false;
-    }
-  }
-  
+    }  
 }
 
 

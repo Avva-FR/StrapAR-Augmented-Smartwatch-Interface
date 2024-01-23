@@ -82,6 +82,7 @@ public class ChangePlaneTexture : MonoBehaviour
         Debug.Log("recv Sensor2 data: " + data2);
 
         confirmPressed = true;
+        Debug.Log("check1");
         HandleButtonPress();
     }
 
@@ -219,10 +220,15 @@ public class ChangePlaneTexture : MonoBehaviour
     // confirm button behaviour selector
     public void HandleButtonPress()
     {
+        Debug.Log("Check2");
+        Debug.Log(currentAppState);
         if (confirmPressed)
         {
+            Debug.Log("Check3");
+            Debug.Log(currentAppState);
             switch (currentAppState)
             {
+       
                 case AppStates.Weather:
                     HandleWeatherAppConfirmPress();
                     break;
@@ -400,13 +406,7 @@ public class ChangePlaneTexture : MonoBehaviour
 
     public void HandleDocumentsAppConfirmPress()
     {
-        if(insideMenu)
-        {
-            insideMenu = false;
-            insideAppMenu = true;
-            GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/documents_app/documents_interface_0")); 
-        } 
-        else if (insideAppMenu)
+        if (insideAppMenu)
         {
             switch (currentPage)
             {
@@ -456,7 +456,7 @@ public class ChangePlaneTexture : MonoBehaviour
                 default:
                     // do nothing 
                     break;
-            } 
+            }
         }
         else if (!insideAppMenu && !insideMenu)
         {
@@ -466,6 +466,8 @@ public class ChangePlaneTexture : MonoBehaviour
             activeDocument = "";
             currentPage = 0;
         }
+        Debug.Log("insideAppMenu:" + insideAppMenu);
+        Debug.Log("insideMenu:" + insideMenu);
     }
     public void HandleGraphAppConfirmPress()
     {

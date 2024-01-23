@@ -79,7 +79,6 @@ public class ChangeBigPlaneTexture : MonoBehaviour
         var messageS2 = MsgBinUintS2.Unpack(container);
         uint data2 = messageS2.Data;
         Debug.Log("recv Sensor2 data: " + data2);
-
         confirmPressed = true;
         HandleButtonPress();
     }

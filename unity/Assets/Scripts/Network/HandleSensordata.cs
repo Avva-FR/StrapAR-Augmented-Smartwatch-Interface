@@ -20,6 +20,11 @@ public class HandleSensorData : MonoBehaviour
 
     public float doubleTapTimer = 0.5f;
     public bool isCoroutineRunning = false;
+    
+    public int currentAppInt = 0;
+    public static string appOpened = "";
+    public static string rotationDirection = "";
+
     // set these when AppStatechanges are received
     public enum AppStates
     {
@@ -30,7 +35,7 @@ public class HandleSensorData : MonoBehaviour
     }
     public AppStates currentAppState;
 
-    void Start()
+    public virtual void Start()
     {
         NetworkServer.Instance.RegisterMessageHandler(MessageContainer.MessageType.Sensor0, HandleSensor0Data);
         NetworkServer.Instance.RegisterMessageHandler(MessageContainer.MessageType.Sensor2, HandleSensor2Data);
@@ -140,6 +145,43 @@ public class HandleSensorData : MonoBehaviour
                 currentAppState = AppStates.Graph;
                 break;
             case 3:
+                currentAppState = AppStates.Documents;
+                break;
+            default:
+                // unknown state
+                break;
+        }
+    }
+
+    public void SetRotation(string rotationDirection)
+    {
+        switch (rotationDirection)
+        {
+            case "cw":
+                HandleButtonPress();
+                break;
+            case "ccw":
+                HandleButtonPress();
+                break;
+            default:
+                // unknown state
+                break;
+        }
+    }
+
+    // opens the first page of the corresponding app
+    // "enters the app-menu"
+    public void SetOpenedApp(string appOpened)
+    {
+        switch (appOpened)
+        {
+            case "a1":
+                currentAppState = AppStates.Weather;
+                break;
+            case "a2":
+                currentAppState = AppStates.Graph;
+                break;
+            case "a3":
                 currentAppState = AppStates.Documents;
                 break;
             default:
@@ -289,6 +331,44 @@ public class HandleSensorData : MonoBehaviour
             bwdButtonPressed = false;
             fwdButtonPressed = false;
         }
+        else if (rotationDirection.Equals("cw"))
+        {
+            switch (currentAppState)
+            {
+                case AppStates.Weather:
+                    HandleWeatherAppCWRotation();
+                    break;
+                case AppStates.Graph:
+                    HandleGraphAppCWRotation();
+                    break;
+                case AppStates.Documents:
+                    HandleDocumentsAppCWRotation();
+                    break;
+                default:
+                    HandleDefaultCWRotation();
+                    break;
+            }
+            rotationDirection = "";
+        }
+        else if (rotationDirection.Equals("ccw"))
+        {
+            switch (currentAppState)
+            {
+                case AppStates.Weather:
+                    HandleWeatherAppCCWRotation();
+                    break;
+                case AppStates.Graph:
+                    HandleGraphAppCCWRotation();
+                    break;
+                case AppStates.Documents:
+                    HandleDocumentsAppCCWRotation();
+                    break;
+                default:
+                    HandleDefaultCCWRotation();
+                    break;
+            }
+            rotationDirection = "";
+        }
     }
 
     // Confirm Double Taps
@@ -343,35 +423,23 @@ public class HandleSensorData : MonoBehaviour
         //@TODO
     }
 
-// Confirm Button Press Handler
-public void HandleDefaultConfirmPress()
+    // Confirm Button Press Handler
+    public void HandleDefaultConfirmPress()
     {
-        if (GetComponent<MeshRenderer>() != null)
-        {
-            GetComponent<MeshRenderer>().material.color = new Color(0.0f, 0.0f, 0.0f);
-        }
+        //@TODO
     }
 
     public void HandleDocumentsAppConfirmPress()
     {
-        if (GetComponent<MeshRenderer>() != null)
-        {
-            GetComponent<MeshRenderer>().material.color = new Color(0.196f, 0.803f, 0.196f);
-        }
+        //@TODO
     }
     public void HandleGraphAppConfirmPress()
     {
-        if (GetComponent<MeshRenderer>() != null)
-        {
-            GetComponent<MeshRenderer>().material.color = new Color(0.722f, 0.059f, 0.039f);
-        }
+        //@TODO
     }
     public void HandleWeatherAppConfirmPress()
     {
-       if (GetComponent<MeshRenderer>() != null)
-        {
-            GetComponent<MeshRenderer>().material.color = new Color(0.988f, 0.886f, 0.020f);
-        }
+       //@TODO
     }
 
     //
@@ -379,33 +447,21 @@ public void HandleDefaultConfirmPress()
     //
     public void HandleDefaultFWDButtonPress()
     {
-        if (GetComponent<MeshRenderer>() != null)
-        {
-            GetComponent<MeshRenderer>().material.color = new Color(0.2f, 0.2f, 0.2f);
-        }
+        //@TODO
     }
 
     public void HandleDocumentsAppFWDPress()
     {
-        if (GetComponent<MeshRenderer>() != null)
-        {
-            GetComponent<MeshRenderer>().material.color = new Color(0.604f, 0.804f, 0.196f);
-        }
+        //@TODO
     }
 
     public void HandleWeatherAppFWDPress()
     {
-        if (GetComponent<MeshRenderer>() != null)
-        {
-            GetComponent<MeshRenderer>().material.color = new Color(0.980f, 0.855f, 0.369f);
-        }
+        //@TODO
     }
     public void HandleGraphAppFWDPress()
     {
-        if (GetComponent<MeshRenderer>() != null)
-        {
-            GetComponent<MeshRenderer>().material.color = new Color(0.706f, 0.216f, 0.341f);
-        }
+        //@TODO
     }
 
     //
@@ -413,48 +469,21 @@ public void HandleDefaultConfirmPress()
     //
     public void HandleDefaultBWDButtonPress()
     {
-        // MeshRenderer meshRenderer = GetComponent<MeshRenderer>();
-
-        // // Make sure the MeshRenderer component exists
-        // if (meshRenderer != null)
-        // {
-        //     // Create a new material instance to avoid changing the original prefab material
-        //     Material material = new Material(meshRenderer.sharedMaterial);
-
-        //     // Set the new color to the material
-        //     material.color = newColor;
-
-        //     // Assign the new material to the MeshRenderer
-        //     meshRenderer.material = material;
-        // }
-
-       if (GetComponent<MeshRenderer>() != null)
-        {
-            GetComponent<MeshRenderer>().material.color = new Color(0.4f, 0.4f, 0.4f);
-        } 
+        //@TODO
     }
 
     public void HandleDocumentsAppBWDPress()
     {
-        if (GetComponent<MeshRenderer>() != null)
-        {
-            GetComponent<MeshRenderer>().material.color = new Color(0.4f, 0.804f, 0.667f);
-        } 
+        //@TODO
     }
 
     public void HandleWeatherAppBWDPress()
     {
-        if (GetComponent<MeshRenderer>() != null)
-        {
-            GetComponent<MeshRenderer>().material.color = new Color(0.988f, 0.957f, 0.639f);
-        } 
+        //@TODO
     }
     public void HandleGraphAppBWDPress()
     {
-        if (GetComponent<MeshRenderer>() != null)
-        {
-            GetComponent<MeshRenderer>().material.color = new Color(0.804f, 0.361f, 0.361f);
-        } 
+        //@TODO
     }
 
     //
@@ -462,36 +491,82 @@ public void HandleDefaultConfirmPress()
     // leave this as is for now or implement timer based detection
     public void HandleDefaultBothButtonPress()
     {
-        if (GetComponent<MeshRenderer>() != null)
-        {
-            GetComponent<MeshRenderer>().material.color = new Color(0.667f, 0.667f, 0.667f);
-        } 
+        //@TODO
     }
 
     public void HandleDocumentsAppBothPress()
     {
-         if (GetComponent<MeshRenderer>() != null)
-        {
-            GetComponent<MeshRenderer>().material.color = new Color(0.565f, 0.933f, 0.565f);
-        } 
+         //@TODO
     }
 
     public void HandleWeatherAppBothPress()
     {
-        if (GetComponent<MeshRenderer>() != null)
-        {
-            GetComponent<MeshRenderer>().material.color = new Color(1f, 0.992f, 0.816f);
-        }  
+        //@TODO
     }
     public void HandleGraphAppBothPress()
     {
-        if (GetComponent<MeshRenderer>() != null)
-        {
-            GetComponent<MeshRenderer>().material.color = new Color(0.980f, 0.502f, 0.447f);
-        } 
+        //@TODO
+    }
+
+    //
+    // CW Rotation Handlers
+    //
+    public void HandleDefaultCWRotation()
+    {
+        //@TODO
+    }
+
+    public void HandleDocumentsAppCWRotation()
+    {
+        //@TODO
+    }
+
+    public void HandleWeatherAppCWRotation()
+    {
+        //@TODO
+    }
+
+    public void HandleGraphAppCWRotation()
+    {
+        //@TODO
+    }
+
+    //
+    // CCW Rotation Handlers
+    //
+    public void HandleDefaultCCWRotation()
+    {
+        //@TODO
+    }
+
+    public void HandleDocumentsAppCCWRotation()
+    {
+        //@TODO
+    }
+
+    public void HandleWeatherAppCCWRotation()
+    {
+        //@TODO
     }
 
     void Update()
     {
+        if(currentAppInt != StateChanges.getState())
+        {
+           currentAppInt = StateChanges.getState(); 
+           SetAppState(currentAppInt);
+        }
+        if(!appOpened.Equals(StateChanges.getOpenedApp()))
+        {
+           appOpened = StateChanges.getOpenedApp(); 
+           SetOpenedApp(appOpened);
+        }
+        if(!rotationDirection.Equals(StateChanges.getRotation()))
+        {
+            Debug.Log(rotationDirection);
+            rotationDirection = StateChanges.getRotation();
+            StateChanges.resetRotation();
+            SetRotation(rotationDirection);
+        }
     }
 }

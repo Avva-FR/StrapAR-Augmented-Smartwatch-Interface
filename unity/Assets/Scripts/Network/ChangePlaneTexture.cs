@@ -5,17 +5,11 @@ using IMLD.MixedReality.Network;
 using System;
 
 
-public class ChangePlaneTexture : MonoBehaviour
+public class ChangePlaneTexture : HandleSensorData
 {
-    public bool confirmPressed = false;
-    public bool fwdButtonPressed = false;
-    public bool bwdButtonPressed = false;
     public bool pageZoomActive = false;
 
     public int currentPage = 0;
-    public int currentAppInt = 0;
-    public static string appOpened = "";
-    public static string rotationDirection = "";
     public string activeDocument = "";
     public bool insideMenu = true;
     public bool insideAppMenu = false;
@@ -26,93 +20,22 @@ public class ChangePlaneTexture : MonoBehaviour
     //debug
     public Color newColor = Color.red;
 
-    // set these when AppStatechanges are received
-    public enum AppStates
-    {
-        Default = 0,
-        Weather = 1,
-        Graph = 2,
-        Documents = 3
-    }
-    public AppStates currentAppState;
-
     private int s1MsgCount = 0;
 
-    void Start()
+    public override void Start()
     {
+        base.Start();
         GetComponent<MeshRenderer>().enabled = true;
         gameObject.transform.Find("PageIndicator").gameObject.GetComponent<MeshRenderer>().enabled = false;
         GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/start"));
-        NetworkServer.Instance.RegisterMessageHandler(MessageContainer.MessageType.Sensor0, HandleSensor0Data);
-        NetworkServer.Instance.RegisterMessageHandler(MessageContainer.MessageType.Sensor1, HandleSensor1Data);
-        NetworkServer.Instance.RegisterMessageHandler(MessageContainer.MessageType.Sensor2, HandleSensor2Data);
-        NetworkServer.Instance.RegisterMessageHandler(MessageContainer.MessageType.Sensor3, HandleSensor3Data);
-        NetworkServer.Instance.RegisterMessageHandler(MessageContainer.MessageType.Sensor4, HandleSensor4Data);
     }
-
-    //
-    // this sensor corresponds to bwd
-    public void HandleSensor0Data(MessageContainer container)
-    {
-        var messageS0 = MsgBinUintS0.Unpack(container);
-        uint data0 = messageS0.Data;
-        Debug.Log("recv Sensor0 data: " + data0);
-        s1MsgCount++;
-        
-        // // debug
-        // SetAppState(0);
-        // implement a timer for double tap
-        fwdButtonPressed = true;
-        HandleButtonPress();
-
-    }
-
-    public void HandleSensor1Data(MessageContainer container)
-    {
-        // @TODO        
-    }
-
-    // Messagehandler for middle Sensor equivalent to confirm
-
-    public void HandleSensor2Data(MessageContainer container)
-    {
-        // if you want to doe something with the data received
-        var messageS2 = MsgBinUintS2.Unpack(container);
-        uint data2 = messageS2.Data;
-        Debug.Log("recv Sensor2 data: " + data2);
-
-        confirmPressed = true;
-        Debug.Log("check1");
-        HandleButtonPress();
-    }
-
-    public void HandleSensor3Data(MessageContainer container)
-    {
-        // @TODO
-    }
-
-    public void HandleSensor4Data(MessageContainer container)
-    {
-        var messageS4 = MsgBinUintS4.Unpack(container);
-        uint data4 = messageS4.Data;
-        Debug.Log("recv Sensor4 data: " + data4);
-
-        bwdButtonPressed = true;
-        HandleButtonPress();
-
-    }
-
-
-
-
-
 
 
 
     /*  If you send an int from the watch representing the state like we do in the Arduinopart
      *  Call This function to set the State so, HandleConfirmButtonPress() selects the correct behaviour
      */
-    public void SetAppState(int state)
+    public override void SetAppState(int state)
     {
         switch (state)
         {
@@ -162,7 +85,7 @@ public class ChangePlaneTexture : MonoBehaviour
     // ccw-rotation corresponds to a bwd-button-press
     //
     // might change as soon as I get a different idea for the functionality
-    public void SetRotation(string rotationDirection)
+    public override void SetRotation(string rotationDirection)
     {
         switch (rotationDirection)
         {
@@ -180,7 +103,7 @@ public class ChangePlaneTexture : MonoBehaviour
 
     // opens the first page of the corresponding app
     // "enters the app-menu"
-    public void SetOpenedApp(string appOpened)
+    public override void SetOpenedApp(string appOpened)
     {
         switch (appOpened)
         {
@@ -218,7 +141,7 @@ public class ChangePlaneTexture : MonoBehaviour
     // verbose piece of shit 
     //
     // confirm button behaviour selector
-    public void HandleButtonPress()
+    public override void HandleButtonPress()
     {
         Debug.Log("Check2");
         Debug.Log(currentAppState);
@@ -399,12 +322,12 @@ public class ChangePlaneTexture : MonoBehaviour
     // @TODO implement specific behaviour
     // currently changes the page of the "weather-app" until it reaches page 3 and then stops
     // in all other states causes color change of icon to "WHITE"
-    public void HandleDefaultConfirmPress()
+    public override void HandleDefaultConfirmPress()
     {
         GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/start_0"));
     }
 
-    public void HandleDocumentsAppConfirmPress()
+    public override void HandleDocumentsAppConfirmPress()
     {
         if (insideAppMenu)
         {
@@ -469,11 +392,13 @@ public class ChangePlaneTexture : MonoBehaviour
         Debug.Log("insideAppMenu:" + insideAppMenu);
         Debug.Log("insideMenu:" + insideMenu);
     }
-    public void HandleGraphAppConfirmPress()
+
+    public override void HandleGraphAppConfirmPress()
     {
         GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/graph_0"));
     }
-    public void HandleWeatherAppConfirmPress()
+
+    public override void HandleWeatherAppConfirmPress()
     {
        switch (currentPage)
         {
@@ -524,12 +449,12 @@ public class ChangePlaneTexture : MonoBehaviour
     // currently zooms into the graphs and images of the "weather-app" and goes back top normal if pressed again
     // in all other states causes color change of icon to "GREEN"
     //
-    public void HandleDefaultFWDButtonPress()
+    public override void HandleDefaultFWDButtonPress()
     {
         GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/start_1"));
     }
 
-    public void HandleDocumentsAppFWDPress()
+    public override void HandleDocumentsAppFWDPress()
     {
         if(insideAppMenu)
         {
@@ -588,7 +513,7 @@ public class ChangePlaneTexture : MonoBehaviour
         }
     }
 
-    public void HandleWeatherAppFWDPress()
+    public override void HandleWeatherAppFWDPress()
     {
         switch (currentPage)
         {
@@ -605,7 +530,8 @@ public class ChangePlaneTexture : MonoBehaviour
                break;
         }
     }
-    public void HandleGraphAppFWDPress()
+
+    public override void HandleGraphAppFWDPress()
     {
         GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/graph_1"));
     }
@@ -615,12 +541,12 @@ public class ChangePlaneTexture : MonoBehaviour
     // currently goes back to the previously opened page of the "weather-app" but will not go to the title image ("first page")
     // in all other states causes color change of icon to "BLUE"
     //
-    public void HandleDefaultBWDButtonPress()
+    public override void HandleDefaultBWDButtonPress()
     {
         GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/start_2"));
     }
 
-    public void HandleDocumentsAppBWDPress()
+    public override void HandleDocumentsAppBWDPress()
     {
         if(insideAppMenu)
         {
@@ -702,7 +628,7 @@ public class ChangePlaneTexture : MonoBehaviour
         }
     }
 
-    public void HandleWeatherAppBWDPress()
+    public override void HandleWeatherAppBWDPress()
     {
         switch (currentPage)
         {
@@ -719,7 +645,7 @@ public class ChangePlaneTexture : MonoBehaviour
                break;
         }
     }
-    public void HandleGraphAppBWDPress()
+    public override void HandleGraphAppBWDPress()
     {
         GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/graph_2"));
     }
@@ -729,12 +655,12 @@ public class ChangePlaneTexture : MonoBehaviour
     // currently transports the viewer back to the title image ("first page") of the weather app
     // in all other states causes color change of icon to "RED"
     //
-    public void HandleDefaultBothButtonPress()
+    public override void HandleDefaultBothButtonPress()
     {
         GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/start_3"));
     }
 
-    public void HandleDocumentsAppBothPress()
+    public override void HandleDocumentsAppBothPress()
     {
         if(!insideMenu)
         {
@@ -747,7 +673,7 @@ public class ChangePlaneTexture : MonoBehaviour
         }
     }
 
-    public void HandleWeatherAppBothPress()
+    public override void HandleWeatherAppBothPress()
     {
         switch (currentPage)
         {
@@ -762,7 +688,7 @@ public class ChangePlaneTexture : MonoBehaviour
                 break;
         }
     }
-    public void HandleGraphAppBothPress()
+    public override void HandleGraphAppBothPress()
     {
         GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/graph_3"));
     }
@@ -770,12 +696,12 @@ public class ChangePlaneTexture : MonoBehaviour
     //
     // CW Rotation Handlers
     //
-    public void HandleDefaultCWRotation()
+    public override void HandleDefaultCWRotation()
     {
         GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/start_1"));
     }
 
-    public void HandleDocumentsAppCWRotation()
+    public override void HandleDocumentsAppCWRotation()
     {
         if(insideAppMenu)
         {
@@ -837,7 +763,7 @@ public class ChangePlaneTexture : MonoBehaviour
         }
     }
 
-    public void HandleWeatherAppCWRotation()
+    public override void HandleWeatherAppCWRotation()
     {
         switch (currentPage)
         {
@@ -859,7 +785,7 @@ public class ChangePlaneTexture : MonoBehaviour
         }
     }
 
-    public void HandleGraphAppCWRotation()
+    public override void HandleGraphAppCWRotation()
     {
         GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/graph_1"));
     }
@@ -867,12 +793,12 @@ public class ChangePlaneTexture : MonoBehaviour
     //
     // CCW Rotation Handlers
     //
-    public void HandleDefaultCCWRotation()
+    public override void HandleDefaultCCWRotation()
     {
         GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/start_2"));
     }
 
-    public void HandleDocumentsAppCCWRotation()
+    public override void HandleDocumentsAppCCWRotation()
     {
         if(insideAppMenu)
         {
@@ -934,7 +860,7 @@ public class ChangePlaneTexture : MonoBehaviour
         }
     }
 
-    public void HandleWeatherAppCCWRotation()
+    public override void HandleWeatherAppCCWRotation()
     {
          switch (currentPage)
         {
@@ -952,30 +878,8 @@ public class ChangePlaneTexture : MonoBehaviour
         }
     }
 
-    public void HandleGraphAppCCWRotation()
+    public override void HandleGraphAppCCWRotation()
     {
         GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/graph_2"));
-    }
-
-    // this thing exist :)
-    void Update()
-    {
-        if(currentAppInt != StateChanges.getState())
-        {
-           currentAppInt = StateChanges.getState(); 
-           SetAppState(currentAppInt);
-        }
-        if(!appOpened.Equals(StateChanges.getOpenedApp()))
-        {
-           appOpened = StateChanges.getOpenedApp(); 
-           SetOpenedApp(appOpened);
-        }
-        if(!rotationDirection.Equals(StateChanges.getRotation()))
-        {
-            Debug.Log(rotationDirection);
-           rotationDirection = StateChanges.getRotation();
-            StateChanges.resetRotation();
-            SetRotation(rotationDirection);
-        }
     }
 }

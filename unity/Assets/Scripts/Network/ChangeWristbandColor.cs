@@ -10,7 +10,7 @@ public class ChangeWristbandColor : HandleSensorData
     //debug
     public Color newColor = Color.red;
 
-    private int s1MsgCount = 0;
+    public int currentAppInt = 0;
 
     public override void Start()
     {
@@ -45,6 +45,15 @@ public class ChangeWristbandColor : HandleSensorData
             default:
                 // unknown state
                 break;
+        }
+    }
+
+    public override void Update()
+    {
+        if (currentAppInt != StateChanges.getState())
+        {
+            currentAppInt = StateChanges.getState();
+            SetAppState(currentAppInt);
         }
     }
 }

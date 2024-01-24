@@ -9,7 +9,8 @@ public static class StateChanges
 {
     public static int currentAppState;
     public static string appOpened = "";
-    public static string rotationDirection = "";
+    public static string rotationDirection1 = "";
+    public static string rotationDirection2 = "";
 
     static void Start()
     {
@@ -21,7 +22,8 @@ public static class StateChanges
      */
     public static void SetAppState(string state)
     {
-        resetRotation();
+        resetRotation1();
+        resetRotation2();
         switch (state){
             case "0":
             case "1":
@@ -37,7 +39,8 @@ public static class StateChanges
                 break; 
             case "cw":
             case "ccw":
-                rotationDirection = state;
+                rotationDirection1 = state;
+                rotationDirection2 = state;
                 break;
         }
     }
@@ -47,14 +50,24 @@ public static class StateChanges
         return currentAppState;
     }
 
-    public static string getRotation()
+    public static string getRotation1()
     {
-        return rotationDirection;
+        return rotationDirection1;
     }
 
-    public static void resetRotation()
+    public static void resetRotation1()
     {
-        rotationDirection = "";
+        rotationDirection1 = "";
+    }
+
+    public static string getRotation2()
+    {
+        return rotationDirection2;
+    }
+
+    public static void resetRotation2()
+    {
+        rotationDirection2 = "";
     }
 
     public static string getOpenedApp()

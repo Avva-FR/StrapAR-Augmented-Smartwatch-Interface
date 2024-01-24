@@ -269,19 +269,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a6ca27bada10418f96026e42b020875, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  confirmPressed: 0
   fwdButtonPressed: 0
+  fwdDoublePress: 0
+  fwdTapCount: 0
+  confirmPressed: 0
+  confirmDoublePress: 0
+  confirmTapCount: 0
   bwdButtonPressed: 0
-  pageZoomActive: 0
+  bwdDoublePress: 0
+  bwdTapCount: 0
+  doubleTapTimer: 0.5
+  isCoroutineRunning: 0
+  currentAppState: 0
   currentPage: 0
-  currentAppInt: 0
   activeDocument: 
   insideMenu: 1
   insideAppMenu: 0
   bigDisplayActive: 0
+  currentAppInt: 0
   reset: 0
   newColor: {r: 1, g: 0, b: 0, a: 1}
-  currentAppState: 0
 --- !u!64 &349746389
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -491,7 +498,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fwdButtonPressed: 0
+  fwdDoublePress: 0
+  fwdTapCount: 0
+  confirmPressed: 0
+  confirmDoublePress: 0
+  confirmTapCount: 0
   bwdButtonPressed: 0
+  bwdDoublePress: 0
+  bwdTapCount: 0
+  doubleTapTimer: 0.5
+  isCoroutineRunning: 0
+  currentAppState: 0
   bigDisplayActive: 0
   reset: 0
 --- !u!1 &705507993
@@ -600,11 +617,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06801ab0e62b54c1091a6e97f080d720, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  confirmPressed: 0
   fwdButtonPressed: 0
+  fwdDoublePress: 0
+  fwdTapCount: 0
+  confirmPressed: 0
+  confirmDoublePress: 0
+  confirmTapCount: 0
   bwdButtonPressed: 0
-  newColor: {r: 1, g: 0, b: 0, a: 1}
+  bwdDoublePress: 0
+  bwdTapCount: 0
+  doubleTapTimer: 0.5
+  isCoroutineRunning: 0
   currentAppState: 0
+  newColor: {r: 1, g: 0, b: 0, a: 1}
   currentAppInt: 0
 --- !u!1 &868099877
 GameObject:
@@ -767,19 +792,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5569b929a02c4321a34324f67958dee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  confirmPressed: 0
   fwdButtonPressed: 0
+  fwdDoublePress: 0
+  fwdTapCount: 0
+  confirmPressed: 0
+  confirmDoublePress: 0
+  confirmTapCount: 0
   bwdButtonPressed: 0
+  bwdDoublePress: 0
+  bwdTapCount: 0
+  doubleTapTimer: 0.5
+  isCoroutineRunning: 0
+  currentAppState: 0
   pageZoomActive: 0
   currentPage: 0
-  currentAppInt: 0
   activeDocument: 
   insideMenu: 1
   insideAppMenu: 0
   smallDisplayActive: 1
+  currentAppInt: 0
   reset: 0
   newColor: {r: 1, g: 0, b: 0, a: 1}
-  currentAppState: 0
 --- !u!4 &924451753 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 540486793339081870, guid: 0bb73b8026f4f4edeac6d4590f2533b4, type: 3}
@@ -1222,11 +1255,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06801ab0e62b54c1091a6e97f080d720, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  confirmPressed: 0
   fwdButtonPressed: 0
+  fwdDoublePress: 0
+  fwdTapCount: 0
+  confirmPressed: 0
+  confirmDoublePress: 0
+  confirmTapCount: 0
   bwdButtonPressed: 0
-  newColor: {r: 1, g: 0, b: 0, a: 1}
+  bwdDoublePress: 0
+  bwdTapCount: 0
+  doubleTapTimer: 0.5
+  isCoroutineRunning: 0
   currentAppState: 0
+  newColor: {r: 1, g: 0, b: 0, a: 1}
   currentAppInt: 0
 --- !u!1 &1958074782
 GameObject:
@@ -1376,6 +1417,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 543450652281949680}
+  - component: {fileID: 919132148291082059}
   m_Layer: 0
   m_Name: wristband
   m_TagString: Untagged
@@ -1383,6 +1425,18 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &919132148291082059
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 919132148291082058}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1a23df4f906d0e4e8caae6b1ce43f20, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3655000509364708379
 GameObject:
   m_ObjectHideFlags: 0

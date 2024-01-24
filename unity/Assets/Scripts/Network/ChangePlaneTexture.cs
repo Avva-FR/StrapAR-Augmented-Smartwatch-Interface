@@ -15,12 +15,14 @@ public class ChangePlaneTexture : HandleSensorData
     public bool insideAppMenu = false;
     public bool smallDisplayActive = true;
 
+    public int currentAppInt = 0;
+    public static string appOpened = "";
+    public static string rotationDirection = "";
+
     public bool reset = false;
 
     //debug
     public Color newColor = Color.red;
-
-    private int s1MsgCount = 0;
 
     public override void Start()
     {
@@ -108,6 +110,7 @@ public class ChangePlaneTexture : HandleSensorData
         switch (appOpened)
         {
             case "a1":
+                Debug.Log("ChangePlaneTexture");
                 currentAppState = AppStates.Weather;
                 GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/weather_app/page1"));
                 currentPage = 1;
@@ -145,134 +148,7 @@ public class ChangePlaneTexture : HandleSensorData
     {
         Debug.Log("Check2");
         Debug.Log(currentAppState);
-        if (confirmPressed)
-        {
-            Debug.Log("Check3");
-            Debug.Log(currentAppState);
-            switch (currentAppState)
-            {
-       
-                case AppStates.Weather:
-                    HandleWeatherAppConfirmPress();
-                    break;
-                case AppStates.Graph:
-                    HandleGraphAppConfirmPress();
-                    break;
-                case AppStates.Documents:
-                    HandleDocumentsAppConfirmPress();
-                    break;
-                default:
-                    HandleDefaultConfirmPress();
-                    break;
-            }
-            // Reset
-            confirmPressed = false;
-        }
-        else if (fwdButtonPressed & !bwdButtonPressed)
-        {
-            //Reset potential pageZoom status
-            pageZoomActive = false;
-
-            if(!reset)
-            {
-                if(smallDisplayActive)
-                {
-                    GetComponent<MeshRenderer>().enabled = false;
-                    gameObject.transform.Find("PageIndicator").gameObject.GetComponent<MeshRenderer>().enabled = false;
-                    smallDisplayActive = false;  
-                }
-                else
-                {
-                    GetComponent<MeshRenderer>().enabled = true;
-                    if(!insideAppMenu && !insideMenu)
-                    {
-                        gameObject.transform.Find("PageIndicator").gameObject.GetComponent<MeshRenderer>().enabled = true;
-                    }
-                    smallDisplayActive = true;  
-                } 
-            }
-
-            // switch (currentAppState)
-            // {
-            //     case AppStates.Weather:
-            //         HandleWeatherAppFWDPress();
-            //         break;
-            //     case AppStates.Graph:
-            //         HandleGraphAppFWDPress();
-            //         break;
-            //     case AppStates.Documents:
-            //         HandleDocumentsAppFWDPress();
-            //         break;
-            //     default:
-            //         HandleDefaultFWDButtonPress();
-            //         break;
-            // }
-            fwdButtonPressed = false;
-        }
-        else if (bwdButtonPressed & !fwdButtonPressed)
-        {
-            //Reset potential pageZoom status
-            pageZoomActive = false;
-
-            if(!reset)
-            {
-                GetComponent<MeshRenderer>().enabled = false;
-                gameObject.transform.Find("PageIndicator").gameObject.GetComponent<MeshRenderer>().enabled = false;
-                smallDisplayActive = false; 
-                reset = true;
-            }
-            else
-            {
-                GetComponent<MeshRenderer>().enabled = true;
-                if(!insideAppMenu && !insideMenu)
-                {
-                    gameObject.transform.Find("PageIndicator").gameObject.GetComponent<MeshRenderer>().enabled = true;
-                }
-                smallDisplayActive = true;  
-                reset = false;
-            }
-
-            // switch (currentAppState)
-            // {
-            //     case AppStates.Weather:
-            //         HandleWeatherAppBWDPress();
-            //         break;
-            //     case AppStates.Graph:
-            //         HandleGraphAppBWDPress();
-            //         break;
-            //     case AppStates.Documents:
-            //         HandleDocumentsAppBWDPress();
-            //         break;
-            //     default:
-            //         HandleDefaultBWDButtonPress();
-            //         break;
-            // }
-            bwdButtonPressed = false;
-        }
-        else if (fwdButtonPressed & bwdButtonPressed)
-        {
-            //Reset potential pageZoom status
-            pageZoomActive = false;
-
-            switch (currentAppState)
-            {
-                case AppStates.Weather:
-                    HandleWeatherAppBothPress();
-                    break;
-                case AppStates.Graph:
-                    HandleGraphAppBothPress();
-                    break;
-                case AppStates.Documents:
-                    HandleDocumentsAppBothPress();
-                    break;
-                default:
-                    HandleDefaultBothButtonPress();
-                    break;
-            }
-            bwdButtonPressed = false;
-            fwdButtonPressed = false;
-        }
-        else if (rotationDirection.Equals("cw"))
+        if (rotationDirection.Equals("cw"))
         {
             //Reset potential pageZoom status
             pageZoomActive = false;
@@ -315,6 +191,96 @@ public class ChangePlaneTexture : HandleSensorData
                     break;
             }
             rotationDirection = "";
+        }
+    }
+
+    public void ExecuteConfirmPress()
+    {
+        switch (currentAppState)
+        {
+            case AppStates.Weather:
+                HandleWeatherAppConfirmPress();
+                break;
+            case AppStates.Graph:
+                HandleGraphAppConfirmPress();
+                break;
+            case AppStates.Documents:
+                HandleDocumentsAppConfirmPress();
+                break;
+            default:
+                HandleDefaultConfirmPress();
+                break;
+        }
+    }
+
+    public void ExecuteFWDPress()
+    {
+        //Reset potential pageZoom status
+        pageZoomActive = false;
+
+        if (!reset)
+        {
+            if (smallDisplayActive)
+            {
+                GetComponent<MeshRenderer>().enabled = false;
+                gameObject.transform.Find("PageIndicator").gameObject.GetComponent<MeshRenderer>().enabled = false;
+                smallDisplayActive = false;
+            }
+            else
+            {
+                GetComponent<MeshRenderer>().enabled = true;
+                if (!insideAppMenu && !insideMenu)
+                {
+                    gameObject.transform.Find("PageIndicator").gameObject.GetComponent<MeshRenderer>().enabled = true;
+                }
+                smallDisplayActive = true;
+            }
+        }
+    }
+
+    public void ExecuteBWDPress()
+    {
+        //Reset potential pageZoom status
+        pageZoomActive = false;
+
+        if (!reset)
+        {
+            GetComponent<MeshRenderer>().enabled = false;
+            gameObject.transform.Find("PageIndicator").gameObject.GetComponent<MeshRenderer>().enabled = false;
+            smallDisplayActive = false;
+            reset = true;
+        }
+        else
+        {
+            GetComponent<MeshRenderer>().enabled = true;
+            if (!insideAppMenu && !insideMenu)
+            {
+                gameObject.transform.Find("PageIndicator").gameObject.GetComponent<MeshRenderer>().enabled = true;
+            }
+            smallDisplayActive = true;
+            reset = false;
+        }
+    }
+
+    public void ExecuteBothPress()
+    {
+        //Reset potential pageZoom status
+        pageZoomActive = false;
+
+        switch (currentAppState)
+        {
+            case AppStates.Weather:
+                HandleWeatherAppBothPress();
+                break;
+            case AppStates.Graph:
+                HandleGraphAppBothPress();
+                break;
+            case AppStates.Documents:
+                HandleDocumentsAppBothPress();
+                break;
+            default:
+                HandleDefaultBothButtonPress();
+                break;
         }
     }
 
@@ -881,5 +847,26 @@ public class ChangePlaneTexture : HandleSensorData
     public override void HandleGraphAppCCWRotation()
     {
         GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/graph_2"));
+    }
+
+    public override void Update()
+    {
+        if (currentAppInt != StateChanges.getState())
+        {
+            currentAppInt = StateChanges.getState();
+            SetAppState(currentAppInt);
+        }
+        if (!appOpened.Equals(StateChanges.getOpenedApp()))
+        {
+            appOpened = StateChanges.getOpenedApp();
+            SetOpenedApp(appOpened);
+        }
+        if (!rotationDirection.Equals(StateChanges.getRotation1()))
+        {
+            Debug.Log(rotationDirection);
+            rotationDirection = StateChanges.getRotation1();
+            StateChanges.resetRotation1();
+            SetRotation(rotationDirection);
+        }
     }
 }

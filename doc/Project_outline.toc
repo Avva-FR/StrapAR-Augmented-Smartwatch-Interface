@@ -1,0 +1,13 @@
+\contentsline {section}{\numberline {1}Einleitung}{2}{section.1}%
+\contentsline {subsection}{\numberline {1.1}Projekthintergrund}{2}{subsection.1.1}%
+\contentsline {subsection}{\numberline {1.2}Projektüberblick}{2}{subsection.1.2}%
+\contentsline {subsection}{\numberline {1.3}Arbeitsteilung / Projektmanagement}{2}{subsection.1.3}%
+\contentsline {section}{\numberline {2}Hardwareprototyping}{3}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Prozess}{3}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}Arduino}{6}{subsection.2.2}%
+\contentsline {subsection}{\numberline {2.3}final thing}{7}{subsection.2.3}%
+\contentsline {subsection}{\numberline {2.4}Designprozess}{7}{subsection.2.4}%
+\contentsline {subsection}{\numberline {2.5}finale Eingabemodalitäten}{7}{subsection.2.5}%
+\contentsline {section}{\numberline {3}Interfaces und Integration}{7}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Protokolle}{7}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Systemintegration}{7}{subsection.3.2}%

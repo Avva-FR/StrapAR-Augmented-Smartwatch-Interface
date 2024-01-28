@@ -305,7 +305,7 @@ public class ChangePlaneTexture : HandleSensorData
                     {
                         gameObject.transform.Find("PageIndicator").gameObject.GetComponent<MeshRenderer>().enabled = true;   
                     }
-                    gameObject.transform.Find("PageIndicator").gameObject.GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/pageIndicator/pi_14")); 
+                    gameObject.transform.Find("PageIndicator").gameObject.GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/pageIndicator/pi_13")); 
                     insideAppMenu = false;
                     activeDocument = "Goethe";
                     break;
@@ -315,7 +315,7 @@ public class ChangePlaneTexture : HandleSensorData
                     {
                         gameObject.transform.Find("PageIndicator").gameObject.GetComponent<MeshRenderer>().enabled = true;   
                     }
-                    gameObject.transform.Find("PageIndicator").gameObject.GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/pageIndicator/pi_14")); 
+                    gameObject.transform.Find("PageIndicator").gameObject.GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/pageIndicator/pi_13")); 
                     insideAppMenu = false;
                     activeDocument = "Liste";
                     currentPage = 0;
@@ -800,7 +800,7 @@ public class ChangePlaneTexture : HandleSensorData
                     {
                         currentPage = currentPage - 1;
                         GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/documents_app/Goethe_" + currentPage));
-                        gameObject.transform.Find("PageIndicator").gameObject.GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/pageIndicator/pi_" + (currentPage + 1) + "4"));
+                        gameObject.transform.Find("PageIndicator").gameObject.GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/pageIndicator/pi_" + (currentPage + 1) + "3"));
                     }
                     break;
                 case "Liste":
@@ -808,7 +808,7 @@ public class ChangePlaneTexture : HandleSensorData
                     {
                         currentPage = currentPage - 1;
                         GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/documents_app/Liste_" + currentPage));
-                        gameObject.transform.Find("PageIndicator").gameObject.GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/pageIndicator/pi_" + (currentPage + 1) + "4"));
+                        gameObject.transform.Find("PageIndicator").gameObject.GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/pageIndicator/pi_" + (currentPage + 1) + "3"));
                     }
                     break;
                 case "Lorem":

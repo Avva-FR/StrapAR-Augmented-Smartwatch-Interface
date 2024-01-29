@@ -16,6 +16,7 @@ public class BigDisplayControl : HandleSensorData
         gameObject.transform.Find("BigPlane").gameObject.GetComponent<MeshRenderer>().enabled = false;
         gameObject.transform.Find("BigPlane").gameObject.transform.Find("PageIndicator_big").gameObject.GetComponent<MeshRenderer>().enabled = false;
         gameObject.transform.Find("LoopExtension").gameObject.GetComponent<MeshRenderer>().enabled = false;
+        gameObject.transform.Find("BigPlane").gameObject.transform.Find("Selectors_big").gameObject.GetComponent<BigSelectorControl>().deactivateAll();
     }
 
     public void ExecuteFWDPress()
@@ -33,6 +34,7 @@ public class BigDisplayControl : HandleSensorData
             {
                 gameObject.transform.Find("BigPlane").gameObject.GetComponent<MeshRenderer>().enabled = false;
                 gameObject.transform.Find("BigPlane").gameObject.transform.Find("PageIndicator_big").gameObject.GetComponent<MeshRenderer>().enabled = false;
+                gameObject.transform.Find("BigPlane").gameObject.transform.Find("Selectors_big").gameObject.GetComponent<BigSelectorControl>().deactivateAll();
                 gameObject.transform.Find("LoopExtension").gameObject.GetComponent<MeshRenderer>().enabled = false;
 
                 bigDisplayActive = false;
@@ -46,6 +48,7 @@ public class BigDisplayControl : HandleSensorData
         {
             gameObject.transform.Find("BigPlane").gameObject.GetComponent<MeshRenderer>().enabled = false;
             gameObject.transform.Find("BigPlane").gameObject.transform.Find("PageIndicator_big").gameObject.GetComponent<MeshRenderer>().enabled = false;
+            gameObject.transform.Find("BigPlane").gameObject.transform.Find("Selectors_big").gameObject.GetComponent<BigSelectorControl>().deactivateAll();
             gameObject.transform.Find("LoopExtension").gameObject.GetComponent<MeshRenderer>().enabled = false;
             reset = true;
         }

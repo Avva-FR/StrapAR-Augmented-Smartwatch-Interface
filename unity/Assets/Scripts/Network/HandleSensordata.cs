@@ -137,6 +137,7 @@ public class HandleSensorData : MonoBehaviour
         //@TODO
     }
 
+    // sets the direction of the clock-bezel rotation
     public virtual void SetRotation(string rotationDirection)
     {
         //@TODO
@@ -176,6 +177,7 @@ public class HandleSensorData : MonoBehaviour
         else if (fwdButtonPressed & bwdButtonPressed)
         {
             GameObject.Find("SmallDisplay").gameObject.GetComponent<ChangePlaneTexture>().ExecuteBothPress();
+            GameObject.Find("BigDisplay").gameObject.transform.Find("BigPlane").gameObject.GetComponent<ChangeBigPlaneTexture>().ExecuteBothPress();
             bwdButtonPressed = false;
             fwdButtonPressed = false;
         }

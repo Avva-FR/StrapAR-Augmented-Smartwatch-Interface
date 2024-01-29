@@ -282,7 +282,7 @@ public class ChangeBigPlaneTexture : HandleSensorData
                     {
                         gameObject.transform.Find("PageIndicator_big").gameObject.GetComponent<MeshRenderer>().enabled = true;   
                     }
-                    gameObject.transform.Find("PageIndicator_big").gameObject.GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/pageIndicator/pi_13"));
+                    gameObject.transform.Find("PageIndicator_big").gameObject.GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/pageIndicator/pi_14"));
                     insideAppMenu = false;
                     activeDocument = "Lorem";
                     currentPage = 0;
@@ -596,7 +596,7 @@ public class ChangeBigPlaneTexture : HandleSensorData
                     {
                         currentPage = currentPage - 1;
                         GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/documents_app/Lorem_" + currentPage + "_big"));
-                        gameObject.transform.Find("PageIndicator_big").gameObject.GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/pageIndicator/pi_" + (currentPage + 1) + "3"));
+                        gameObject.transform.Find("PageIndicator_big").gameObject.GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Resources.Load<Texture2D>( "Textures/pageIndicator/pi_" + (currentPage + 1) + "4"));
                     }
                     break;
                 default:

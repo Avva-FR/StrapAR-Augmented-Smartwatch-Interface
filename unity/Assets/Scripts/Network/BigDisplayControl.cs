@@ -38,6 +38,10 @@ public class BigDisplayControl : HandleSensorData
                 bigDisplayActive = false;
             }
         }
+        else
+        {
+            bigDisplayActive = false;
+        }
     }
 
     public void ExecuteBWDPress()
@@ -47,6 +51,7 @@ public class BigDisplayControl : HandleSensorData
             gameObject.transform.Find("BigPlane").gameObject.GetComponent<MeshRenderer>().enabled = false;
             gameObject.transform.Find("BigPlane").gameObject.transform.Find("PageIndicator_big").gameObject.GetComponent<MeshRenderer>().enabled = false;
             gameObject.transform.Find("LoopExtension").gameObject.GetComponent<MeshRenderer>().enabled = false;
+            bigDisplayActive = false;
             reset = true;
         }
         else

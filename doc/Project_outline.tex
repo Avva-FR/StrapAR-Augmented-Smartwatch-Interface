@@ -185,4 +185,78 @@ ADS Analogwerte sind teilweise zufällig 2\^16 groß, ohne Eingabe -> Noise raus
 
 \subsection{Systemintegration}
 
+\section{Smartwatch-App Prototyp}
+
+\subsection{Ideenfindung}
+
+Zunächst war für unseren Prototyp keine Smartwatch-App vorgesehen. Auch, da uns dafür die nötige Hardware gefehlt hat und eine Beschaffung nicht in unserem Budget liegen würde. Erst im Gespräch mit unseren Betreuern haben wir eine Samsung Galaxy Gear s3 für die Einbindung in unseren Prototypen in Aussicht gestellt bekommen. Daraufhin mussten wir uns zunächst die Frage stellen, welchen Zweck die Uhr in unserem Produktprototyp erfüllen sollte. Nach einigem Überlegen haben wir uns dazu entschieden, die Smartwatch als zentrales Element unseres Prototyps zu sehen und die auf der Uhr gewählten Anwendungen durch eine Visualisierung und eine Steuerung durch das Armband zu ergänzen. Somit sollte auf der Uhr eine App laufen, die eine Auswahl aus verschiedenen Anwendungen erlaubt. 
+
+\subsection{Lo-Fi-Prototyp}
+
+Als Start in die Umsetzung haben wir zunächst einen Lo-Fi-Prototyp skizziert, um die App, die Sichten und die Navigation zu entwickeln. Dabei ist diese Skizze entstanden (siehe Abbildung \ref{fig:Smatwatch_Prototyp}).
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=.35]{assets/lo_fi_prototyp.jpeg}
+	\caption{Lo-Fi-Prototyp}
+	\label{fig:Smatwatch_Prototyp}
+\end{figure}
+
+In diesem Lo-Fi-Prototyp waren zunächst drei Sichten definiert. Die Erste sollte ein Home Bildschirm sein. Dies soll ein Default Case sein, in welchem die Smartwatch-App gestartet wird, aber noch keine Anwendung ausgewählt ist. Durch eine Swipe Geste nach rechts oder links, hier durch die Pfeile gekennzeichnet, sollte zwischen den verschiedenen Sichten gewechselt werden können. Die anderen zwei Sichten sollen symbolisieren, dass hier eine Anwendung hinterlegt ist. 
+
+\subsection{Tizen}
+
+Nachdem wir nun also einen ersten theoretischen Prototyp entwickelt hatten, ging es nun an die praktische Implementierung. Dazu mussten wir uns zunächst in die Grundlagen der Tizen Entwicklung einarbeiten und ein neues Projekt aufsetzen. Dabei haben wir uns an dem Watch+Strap Tizen App Projekt der TU Dresden [Quelle: https://github.com/imldresden/WatchStrap-tizen-app] orientiert. 
+Nach der Einarbeitung und dem Aufsetzen des neuen Projekts galt es zunächst, die Grundfunktionalitäten der Smartwatch sicherzustellen. Dazu müssten Klassen wie der lowBatterryCheck oder auch die Button-Events für “back” und “main” implementiert werden. 
+
+\subsection{Erstfassung der Smartwatch-App}
+
+Als die Grundfunktionalitäten schließlich implementiert waren, konnten wir uns an die Umsetzung unserer App machen. Dazu haben wir zunächst eine einzelne index.html Seite implementiert, die sich in mehrere sections gegliedert hat. Durch einen Swipe oder durch die Basal Rotation wurde die sectionChange Methode aufgerufen, welche wiederum die nächste section sichtbar gemacht hat. 
+
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=.35]{assets/smartwatch_app_erstversion.jpg}
+	\caption{app_erstversion}
+	\label{fig:Weather Anwendung in früher Version}
+\end{figure}
+
+Die Abbildung zeigt beispielhaft eine ausgewählte section, die mit dem Wetter-Icon versehen ist. Das Produkt dieses Abschnittes war eine Tizen-App, die durch Swipegesten oder die Basal Rotation gesteuert durch die sections Home, Weather und Documents bewegt werden konnte. 
+
+\subsection{Websockets}
+
+Als nächster Schritt stand nun die Verbindung zu unserem Unity-Projekt an. Dabei mussten wir zunächst eine geeignete Technologie für unsere Netzwerkübertragung finden. Der erste Versuch war, eine HTTP-Massage zu verschicken. Dies ließ sich zwar aufseiten der Smartwatch-App als Client gut implementieren, dennoch stellte es sich als umständlich heraus, auf Unityseite einen HTTP-Server zu implementieren. Deswegen entschieden wir uns, die Technologie Websockets umzustellen. Nun können folgende Nachrichten von der Smartwatch-App an die Unity-Anwendung verschickt werden: 
+
+\begin{enumerate}
+	\item{“0” - Home section / zurück auf Home section}	
+	\item{“1” - weather section}
+	\item{“2” - graph section}
+	\item{“3” - documents section}
+	\item{“a1” - weather Anwendung gestartet}
+	\item{“a2” - graph Anwendung gestartet}
+	\item{“a3” - documents Anwendung gestartet}
+	\item{“cw” - Clockwise Rotation}
+	\item{“ccw” - counterClockwise Rotation}
+\end{enumerate}
+
+Auf Seiten von Unity gibt es einen mit WebSocketSharp erstellten Websocket-Server. Dieser kann die Nachrichten empfangen und in der Methode StateChange.SetAppState() zur Weiterverarbeitung in Unity zur Verfügung stellen. 
+
+\subsection{Zweitfassung der Smartwatch-App}
+
+Nachdem die Websocket-Kommunikation implementiert war, kam noch der Wunsch auf, auch innerhalb der einzelnen Anwendungen die Basal-Rotation zur Steuerung der Visualisierung nutzen zu können. Deswegen braucht es eine Trennung zwischen der Anwendungsauswahl, die ebenfalls über die Basal-Rotation möglich ist, und der Anwendung selbst. Aus diesem Grund haben wir einen Button auf das jeweilige App-Auswahlfeld gemacht, der eine HTML-Unterseite aufruft, die eigene Scripte lädt und so eine Trennung von der Auswahl einer App und dem "in einer App sein" ermöglicht. 
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=.35]{assets/smartwatch_app_zweitversion.jpg}
+	\caption{app_zweitversion}
+	\label{fig:Finale Documents Anwendung}
+\end{figure}
+
+Wie in der Abbildung zu erkennen, haben wir die Anwendungsseite auch farblich an die Visualisierung angelehnt gestaltet, um so auch visuell noch eine Verbindung zwischen der Smartwatch-App und der Unitiy Visualisierung zu schaffen. 
+
+\subsection{Systemintegration}
+
+Die Smartwatch-App gliedert sich in das Gesamtprojekt als Element zur Anwendungsauswahl und zur Steuerung ein. So kann über die App eine Unter-Anwendung Weather, Graph oder Documents ausgewählt und durch einen Button-Klick gestartet werden. Durch die Basal-Rotation können bestimmte Elemente der Visualisierung darüber hinaus auch gesteuert werden. Außerdem kann über den Home Button eine Anwendung wieder geschlossen werden. 
+
+
 \end{document}

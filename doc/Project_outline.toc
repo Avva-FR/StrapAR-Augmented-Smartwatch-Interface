@@ -1,0 +1,18 @@
+\contentsline {section}{\numberline {1}Einleitung}{2}{section.1}%
+\contentsline {subsection}{\numberline {1.1}Projekthintergrund}{2}{subsection.1.1}%
+\contentsline {subsection}{\numberline {1.2}Projektüberblick}{2}{subsection.1.2}%
+\contentsline {subsection}{\numberline {1.3}Arbeitsteilung / Projektmanagement}{2}{subsection.1.3}%
+\contentsline {section}{\numberline {2}Hardwareprototyping}{3}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Konzeptfindung}{3}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}Konzeptentwicklung}{3}{subsection.2.2}%
+\contentsline {subsection}{\numberline {2.3}Konzeptrealisierung}{5}{subsection.2.3}%
+\contentsline {subsection}{\numberline {2.4}Konzeptfinalisierung}{6}{subsection.2.4}%
+\contentsline {subsection}{\numberline {2.5}a}{7}{subsection.2.5}%
+\contentsline {section}{\numberline {3}Smartwatch-App Prototyp}{8}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Ideenfindung}{8}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Lo-Fi-Prototyp}{8}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3}Tizen}{8}{subsection.3.3}%
+\contentsline {subsection}{\numberline {3.4}Erstfassung der Smartwatch-App}{8}{subsection.3.4}%
+\contentsline {subsection}{\numberline {3.5}Websockets}{9}{subsection.3.5}%
+\contentsline {subsection}{\numberline {3.6}Zweitfassung der Smartwatch-App}{10}{subsection.3.6}%
+\contentsline {subsection}{\numberline {3.7}Systemintegration}{10}{subsection.3.7}%

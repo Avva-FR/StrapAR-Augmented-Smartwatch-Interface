@@ -1,5 +1,5 @@
 
-\documentclass[12pt, a4paper]{article}
+\documentclass[11pt, a4paper]{article}
 \usepackage{german}
 
 \usepackage{graphicx}
@@ -7,6 +7,26 @@
 
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, arrows}
+
+\tikzstyle{io} = [trapezium, 
+trapezium stretches=true,
+trapezium left angle=70, 
+trapezium right angle=110, 
+minimum width=3cm, 
+minimum height=1cm, text centered, 
+draw=black, fill=blue!10]
+\tikzstyle{process} = [rectangle, 
+rounded corners,
+minimum width=3cm, 
+minimum height=1cm, 
+text centered, 
+text width=3cm, 
+draw=black, 
+fill=green!10]
+\tikzstyle{arrow} = [thick,->,>=stealth]
 
 \usepackage[
 colorlinks=true, 
@@ -33,14 +53,19 @@ linkcolor=blue]{hyperref}
 
 \subsection{Projekthintergrund}
 
-Das Projekt fand im Rahmen des Moduls INF-B-490 Komplexpraktikum Medieninformatik-Projekt im Zeitraum des Sommersemesters 2023 und Wintersemesters 2023/24 statt. Dabei diente das Sommersemester zum Einarbeiten in die jeweiligen Technologien via 'hands-on-Seminaren' in welchen jeweils ein Schwerpunkt beleuchtet wurde. Das Wintersemester 2023/24 diente der prototypischen Realisierung der Projektziele.\\
+Das Projekt fand im Rahmen des Moduls INF-B-490 Komplexpraktikum Medieninformatik-Projekt im Zeitraum des Sommersemesters 2023 und Wintersemesters 2023/24 statt. 
+Dabei diente das Sommersemester zum Einarbeiten in die jeweiligen Technologien via 'hands-on-Seminaren' in welchen jeweils ein Schwerpunkt beleuchtet wurde. 
+Das Wintersemester 2023/24 diente der prototypischen Realisierung der Projektziele.\\
 \\
 Zielstellungen der Lehrveranstaltung beinhalten das praktische Kennenlernen von Mixed-Reality-Technologien und Physical Computing Ansätzen via Konzeption und Realisierung von Komponenten sowie Funktionen einer kombinierten Anwendung innerhalb eines 2–3-köpfigen Teams.\\
 Genauer beschrieben ist das Ziel ein physisches Mensch-Computer-Interface, welches am Körper getragen werden kann, engl.: ''Wearable'' unter der Verwendung von e-Textile Sensoren prototypisch umzusetzen und dieses in eine Mixed-Reality beziehungsweise Augmented-Reality Applikation einzubinden.
 
 \subsection{Projektüberblick}
 
-Unser Projekt drehte sich um die Realisierung eines 'smartwatch-bracelet' Prototyps. Zentrale Ziele waren dabei die Erweiterung sowie Kombination der Eingabemodalitäten herkömmlicher 'Smartwatches'. Die Idee: Uhrenarmbänder, welche für gewöhnlich nur den Zweck verfolgen, die Uhr am Armgelenk zu befestigen, in die Interaktion mit der Smartwatch einzubinden und somit neue Interaktionsschnittstellen zu erforschen. Der Armband-Prototyp hat die Zielstellung auch ohne die Mixed-Reality Komponente eine Grundlage für eine erweiterte Smartwatch-Eingabeschnittstelle zu bilden.\\
+Unser Projekt drehte sich um die Realisierung eines 'smartwatch-bracelet' Prototyps. 
+Zentrale Ziele waren dabei die Erweiterung sowie Kombination der Eingabemodalitäten herkömmlicher 'Smartwatches'. 
+Die Idee: Uhrenarmbänder, welche für gewöhnlich nur den Zweck verfolgen, die Uhr am Armgelenk zu befestigen, in die Interaktion mit der Smartwatch einzubinden und somit neue Interaktionsschnittstellen zu erforschen. 
+Der Armband-Prototyp hat die Zielstellung auch ohne die Mixed-Reality Komponente eine Grundlage für eine erweiterte Smartwatch-Eingabeschnittstelle zu bilden.\\
 Das Projekt lässt sich in 3 Teile unterteilen: Armband, Uhr, Augmented-Reality.
 
 
@@ -48,142 +73,184 @@ Das Projekt lässt sich in 3 Teile unterteilen: Armband, Uhr, Augmented-Reality.
 
 @TODO hier reinschreiben was íhr gemacht habt \\
 
-Die 3 Bereiche wurden daraufhin auf die Gruppenmitglieder aufgeteilt. Yorick beschäftigte sich mit der Smartwatch App , sowie Teilen der Augmented Reality Visualisierung. Dieter ist für die Augmented Reality Visualisierung zuständig und Florian beschäftigte sich mit dem Entwurf und Design des Uhrenarmbands, die Verarbeitung der Sensordaten auf Arduino Seite sowie dessen Gegenpart auf der Unity Seite, sowie der Präsentation des Prototypen.
+Die 3 Bereiche wurden daraufhin auf die Gruppenmitglieder aufgeteilt. 
+Yorick beschäftigte sich mit der Smartwatch App , sowie Teilen der Augmented Reality Visualisierung. 
+Dieter ist für die Augmented Reality Visualisierung zuständig und Florian beschäftigte sich mit dem Entwurf und Design des Uhrenarmbands, die Verarbeitung der Sensordaten auf Arduino Seite sowie dessen Gegenpart auf der Unity Seite, sowie der Präsentation des Prototypen.
+
 
 \newpage
+
 
 \section{Hardwareprototyping}
 \label{sec:Hardwareprototyping}
 
-\subsection{Prozess}
+\subsection{Konzeptfindung}
+\label{sec:hw_proc_concept}
 
-Nach dem Beschluss, sich als Team für einen Prototypen eines Uhrenarmbandes zu beschäftigen, wurden verschiedene Konzepte entwickelt, um piezoresistive Drucksensoren und kapazitive Berührungssensoren in den Formfaktor Uhrenarmband zu integrieren. Die Rahmenbedingungen der Anforderungsanalyse waren möglichst ergonomische Interaktionsmodalitäten zu integrieren mit dem Kerngedanken der von Smartwatches bekannten Interaktionen via Tastenbetätigungen und Wischbewegungen. Daraus resultierte neben anderen Entwürfen unter anderem der folgende Entwurf (siehe Abbildung \ref{fig:Initial_Idea}).
+Nach dem Beschluss sich als Team für einen Prototypen eines Uhrenarmbandes zu beschäftigen wurden verschiedene Konzepte entwickelt, um piezoresistive Drucksensoren und kapazitive Berührungssensoren in den Formfaktor Uhrenarmband zu integrieren. 
+Die Rahmenbedingungen der Anforderungsanalyse waren möglichst ergonomische Interaktionsmodalitäten zu integrieren, mit dem Kerngedanken der von Smartwatches bekannten Interaktionen via Tastenbetätigungen und Wischbewegungen. 
+Daraus resultierte neben anderen Entwürfen unter anderem der folgende Entwurf (siehe Abbildung \ref{fig:Initial_Idea}).
+
 
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=.35]{assets/Strap_initial_idea.jpg}
-	\caption{Konzept }
+	\caption{Konzept Armband}
 	\label{fig:Initial_Idea}
 \end{figure}
 
-Dieses Konzept sieht vor, ähnlich wie in einem metallenen Armband die Drucksensoren auf die einzelnen Glieder des Armbandes zu verteilen und als Buttons zu verwenden. Zudem soll die Seite des Armbandes als Slider via Berührungssensoren Wischbewegungen unterstützen.\\	
-Man entschied sich mit dem Konzept fortzufahren. Die nächste Frage, welche Beantwortung finden musste war, ob ein bereits existierendes Uhrenarmband für den Prototypen modifiziert werden soll oder ob man selbst von Grund auf einen Prototyp entwickeln möchte?\\
-Es wurde sich festgelegt, nicht bereits existierende Armbänder bzw. Uhrenarmbänder zu modifizieren, sondern ein Prototyp von Grund auf zu entwerfen. Insbesondere für inkrementelle Änderungen oder schnelles Testen von Ideen bietet dieses Vorgehen mehr Flexibilität innerhalb des Prozesses. Unter anderen war diese Entscheidung auch dadurch begründet, den finanziellen Faktor möglichst gering zu halten, sowie dass keiner der Gruppenmitglieder adäquates Werkzeug zur Bearbeitung von Leder besitzt oder Metall besitzt. Das Armband der Galaxy Watch zu Verwenden wurde auch schnell ausgeschlossen.\\
-Im nächsten Schritt wurden die Zuständigkeiten der Bearbeitung der einzelnen Projektbereiche festgelegt und das restliche Hardwareprototyping unter Sektion \ref{sec:Hardwareprototyping} wurde von Florian übernommen.\\
+Dieses Konzept sieht vor, ähnlich wie in einem metallenen Armband die Drucksensoren auf die einzelnen Glieder des Armbandes zu verteilen und als Buttons zu verwenden. 
+Zudem soll die Seite des Armbandes als Slider via Berührungssensoren Wischbewegungen unterstützen. \\
+Man entschied sich mit den Kerngedanken des Konzepts fortzufahren. 
+Die nächste Frage, welche Beantwortung finden musste war, ob ein bereits existierendes Uhrenarmband für den Prototypen modifiziert werden soll, oder ob man selbst von Grund auf einen Prototyp entwickeln möchte?
+Es wurde sich festgelegt, nicht bereits existierende Armbänder bzw. Uhrenarmbänder zu modifizieren, sondern ein Prototyp von Grund auf zu entwerfen. 
+Insbesondere für inkrementelle Änderungen oder schnelles Testen von Ideen bietet dieses Vorgehen mehr Flexibilität innerhalb des Prozesses. 
+Unter anderen war diese Entscheidung auch dadurch begründet, den finanziellen Faktor möglichst gering zu halten, sowie dass keiner der Gruppenmitglieder adäquates Werkzeug zur Bearbeitung von Leder besitzt oder Metall besitzt. Das Armband der Galaxy Watch zu verwenden wurde auch schnell ausgeschlossen.\\
+Im nächsten Schritt wurden die Zuständigkeiten der Bearbeitung der einzelnen Projektbereiche festgelegt und das restliche Hardwareprototyping unter Sektion \ref{sec:Hardwareprototyping} wurde von Florian übernommen.
 
-\newpage
+\subsection{Konzeptentwicklung}
+\label{sec:hw_proc_concept2}
 
-Abbildung \ref{fig:concept_layout} wurde
+Abbildung \ref{fig:concept_layout} wurde als Konzeptzeichnung für die Anordnung der jeweiligen Sensoren entworfen. 
+Kerngedanke dabei ist die jeweiligen Stoffschichten als enkapsulierendes Element zu sehen.
+Das Konzept sieht vor auf die Innenseite der Stoffschicht die jeweiligen Sensoren und deren Stromversorgung unterzubringen. 
+Dabei wären auf  Abbildung \ref{fig:concept_layout} die untere Stoffschicht abgebildet, welche alle Sensoren und Kabel für das Layer enkapsuliert, in diesen Fall alle Sensoren und deren Kabel zu den Analogpins bzw. GND.
+ 
+Die entgegengesetzte Stoffschicht würde somit die Stromversorgung von Arduino zu den Sensoren darstellt. 
+Es musste nun geklärt werden welche Materialien zur Entwicklung infrage kämen. 
+Die Anforderungen an das Material waren: Der Stoff des Armbandes darf nichtleitend sein und muss sich nähen lassen, zudem sollte er verformbar sein, um Bewegungen der Uhr am Armband standzuhalten, jedoch nur minimal dehnbar und natürlich den Formfaktor umsetzen können. 
+Nach Initialrecherche für infrage kommende Materialien wurde schnell klar, Mantelstoffe wie (gekochte) Wolle mit variablem Verhältnis von Naturfaser zu Kunstfaser (oft 80\% Schurwolle, 20\% Polyamid) gibt es in unterschiedlichen Stärken und wären ideal geeignet für die Umsetzung. 
+Preislich jedoch sprengte das den Rahmen als Substitution bat sich Filz an, Kompromisse müssen damit im Erscheinungsbild in Kauf genommen werden, jedoch erfüllt Filz alle Anforderungen und bieten den großen Vorteil die Schnittkante des Stoffes muss wie bei der Wolle nicht nachbehandelt werden.\\
+Zudem bietet Filz weitere Vorteile, die leitenden Kabel können halb in den Stoff eingenäht werden, ohne den Stoff vollständig zu durchdringen. 
+Somit sind ungewollte Kurzschlüsse noch einfacher vermeidbar. Zudem sind die Kabel der Stromversorgung auf der entgegengesetzten Seite zu den Kabeln welche von Sensor zu Arduino verlaufen untergebracht, die piezoresistiven Sensoren haben lediglich Kontakt zu beiden Kabeln (Stromversorgung auf der Oberseite und Sensor zu Arduino auf der Unterseite).
+
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[scale=.1]{assets/Design_drawing.jpg}
-	\caption{Konzept Layout}
+	\includegraphics[scale=.09]{assets/Design_drawing.jpg}
+	\caption{Konzept Armband Layout}
 	\label{fig:concept_layout}
 \end{figure}
 
-\newpage
-
-Es musste nun geklärt werden welche Materialien zur Entwicklung infrage kämen. Die Anforderungen an das Material waren: Der Stoff des Armbandes darf nichtleitend sein und muss sich nähen lassen, zudem sollte er verformbar sein, um Bewegungen der Uhr am Armband standzuhalten, jedoch nur minimal dehnbar und natürlich den Formfaktor umsetzen können. Nach Initialrecherche für infrage kommende Materialien wurde schnell klar, Mantelstoffe wie (gekochte) Wolle mit variablen Verhältnis von Naturfaser zu Kunstfaser (oft 80\% Schurwolle, 20\% Polyamid) gibt es in unterschiedlichen Stärken, wäre gut für die Umsetzung. Preislich jedoch sprengte das den Rahmen als Substitution bat sich Filz an, Kompromisse müssen damit im Erscheinungsbild in Kauf genommen werden, jedoch erfüllt Filz alle Anforderungen und bieten den großen Vorteil die Schnittkante des Stoffes muss wie bei der Wolle nicht nachbehandelt werden. Somit 
 
 \newpage
 
+\subsection{Konzeptrealisierung}
+\label{sec:hw_proc_realisation}
 
 
+Im Anschluss an die konzeptuelle Ausarbeitung erfolgte die Umsetzung des ersten Prototypen siehe Abbildung \ref{fig:pof_prototyp}. 
+Dabei wurden zunächst die verschiedenen Schichten des Stoffes mit Sensoren und der dazugehörigen Stromversorgung umgesetzt.\\
 
-\begin{figure}[h]
+\begin{figure}[ht]
 	\centering
-	\includegraphics[scale=.5]{assets/Prototyp.jpg}
-	\caption{ayaa}
-	\label{fig:Initial_drawing}
+	\includegraphics[scale=.33]{assets/Prototyp.jpg}
+	\caption{''proof of concept'' Prototyp}
+	\label{fig:pof_prototyp}
+\end{figure}
+\begin{figure}[hb]
+\begin{minipage}[c]{0.5\textwidth} 
+	Nachdem das erste ''Proof of Concept'' Armband mit Sensoren bestückt wurde und der Adafruit ADS1015 zur Verfügung stand wurde die Schaltung umgesetzt und der Arduino Code entwickelt.
+	Hierbei sollte möglichst wenig Arbeit vom ESP selbst übernommen werden und der Großteil der Verarbeitung der Werte auf RECV Seite umgesetzt werden. 
+	Der Code ist dafür branchless und möglichst simpel gehalten.
+	Dabei fielen beständige Verhaltensweisen auf: der ADS ließt Analogwerte Bereich von $x_{ADS} \in \{0,...,1100\}$, währenddessen die ESP Analogwerte im Bereich $x_{ESP} \in \{0,...,1023\}$ liegen.
+	Zudem haben die Analogwerte des ADS in zufälligen Verhalten ''Noise'' $2^{16}$ angenommen. 
+	Abbildung \ref{fig:arduino_data_pipeline} beschreibt die Vorgehensweise, diese Einzelheiten anzugleichen.
+\end{minipage}
+\begin{minipage}[c]{0.5\textwidth} 
+	\begin{tikzpicture}[node distance=1.5cm]
+	\node (input_esp) [io] {ESP Reading};
+	\node (input_ads) [io, right of=input_esp, xshift=2cm] {ADS Reading};
+	\node (denoise_ads) [process, below of=input_ads] {Denoising};
+	\node (remap_ads) [process, below of=denoise_ads] {Remapping};
+	\node (filter_data) [process, below of=input_esp, yshift=-3cm, xshift=2cm] {filter unintentional input};
+	\node (send_tcp) [io, below of=filter_data] {sendTCP};
+
+	\draw [arrow] (input_esp) -- (filter_data);
+	\draw [arrow] (input_ads) -- (denoise_ads);
+	\draw [arrow] (denoise_ads) -- (remap_ads);
+	\draw [arrow] (remap_ads) -- (filter_data);
+	\draw [arrow] (filter_data) -- (send_tcp);
+	\end{tikzpicture}
+	\caption{Arduino Datenpipeline}
+	\label{fig:arduino_data_pipeline}
+\end{minipage}
 \end{figure}
 
+In erster Iteration waren auch die Timer für das detektieren multipler Eingaben auf Arduino Seite implementiert, die Behandlung der einzelnen Eingaben auf Unity-Seite wurde auch umgesetzt und getestet.
+Die Behandlung der Eingaben erfolgt Statebasiert, für jeden Input gibt es einen Handler, der für jeden von der Uhr gesendeten State also welche App so eben offen ist den korrespondierenden Buttonhandler aufruft.
+Beim Testen entschied man sich als Gruppe auch für eine statische Präsentation des Armbandes an einem Schaufensterpuppenarm.\\
+Dazu wurde ein 3D Modell eines Armes abgeändert und 3D gedruckt.
 
 
+\newpage
 
 
+Beim Testen stellte sich zudem heraus, dass das silberbeschichtete Band, sowie das leitende Garn ohne Probleme in Kombination funktionierten. 
+Der piezoresistive Stoff wies bei Positionierung des Silberbandes übereinander das erwartete Verhalten auf, falls jedoch das Band leicht seitlich auf den Sensor drückte, waren die Werte nicht innerhalb des Erwartungsrahmens.
+Somit war klar in den nächsten Schritten der Entwicklung musste wert auf die korrekte Positionierung der Sensoren und des Silberbandes geachtet werden.
+Der Code für Unity funktionierte auch, womit ich die Sensorik als funktionstüchtig betrachten konnte.
+\\
+As nächste Iterationen wurde mit der Anzahl der Sensoren variiert, um Sliderbewegungen über weitere Drucksensoren zu realisieren, die dann innerhalb einer Schicht des Armbandes untergebracht werden können. 
+Idee war wie im anfänglichen Konzept \ref{fig:concept_layout} weitere Drucksensoren zwischen die bereits existierenden Sensoren zu nähen.
+Damit würden Swipebewegung von den Rändern des Armbandes hin zur Mitte beabsichtigt. \\
+Es stellte sich nach testweiser Befestigung des Armbandes am Arm heraus, dass die Erkennung der Sequenz der Berührung der Sensoren relativ ungenau war, auch nach verschiedenen Softwaretechnischen Änderungen war dies nicht gut zu beheben, die Auflösung der Sensoren bzw. die Genauigkeit war nicht in der Lage die Swipebewegung in allen Fällen zu erfassen.
+Als Konsequenz daraus wurde innerhalb der Gruppe die Idee unterbreitet diese Swipebewegung mit der ''Bezelrotation'' der Smartwatch abzubilden, das wurde dann auch umgesetzt und erwies sich schnell als bessere Interaktion.
 
-
-
+\subsection{Konzeptfinalisierung}
 
 
 \begin{figure}[h]
 	\begin{subfigure}[c]{0.33\textwidth}
 		\includegraphics[scale=.037]{assets/Strap_fitting_wires.jpg}
-		\caption{Platzierung für Bohrung}
-		\label{fig:Initial_drawing}
+		\caption{Sensorplatzierung}
+		\label{fig:Initial_drawing1}
 	\end{subfigure}
 	\begin{subfigure}[c]{0.33\textwidth}
 		\includegraphics[scale=.037]{assets/Strap_fitting_sensors.jpg}
 		\subcaption{Sensorplatzierung}
-		\label{fig:Initial_drawing}
+		\label{fig:Initial_drawing2}
 	\end{subfigure}
-		\begin{subfigure}[c]{0.33\textwidth}
+		\begin{subfigure}[c]{0.31\textwidth}
 		\includegraphics[scale=.037]{assets/Connection_thread_wire.jpg}
-		\subcaption{Verbindung Garn und Draht}
+		\subcaption{Stromversogung}
 		\label{fig:Initial_drawing}
 	\end{subfigure}
-	\caption{Fitting bracelet to hand}
+	\caption{Fitting bracelet to hand3}
 \end{figure}
-ayaya
 \begin{figure}[h]
-	\begin{subfigure}[c]{0.33\textwidth}
+	\begin{subfigure}[c]{0.3\textwidth}
 		\includegraphics[scale=.037]{assets/Drill_markers.jpg}
-		\caption{Löcher bohren}
-		\label{fig:Initial_drawing}
+		\caption{Verkabelung}
+		\label{fig:Initial_drawing4}
 	\end{subfigure}
-	\begin{subfigure}[c]{0.33\textwidth}
+	\begin{subfigure}[c]{0.3\textwidth}
 		\includegraphics[scale=.037]{assets/Testing_before_finalizing.jpg}
-		\subcaption{Testen ob Kurzschluss}
-		\label{fig:Initial_drawing}
+		\subcaption{Testen der Sensorik}
+		\label{fig:Initial_drawing5}
 	\end{subfigure}
-		\begin{subfigure}[c]{0.33\textwidth}
+		\begin{subfigure}[c]{0.3\textwidth}
 		\includegraphics[scale=.037]{assets/crop_sensor_fitting.jpg}
 		\subcaption{Finaler Prototyp}
-		\label{fig:Initial_drawing}
+		\label{fig:Initial_drawing6}
 	\end{subfigure}
 	\caption{Fitting bracelet to hand}
 \end{figure}
 
+\newpage
+
+Abbildungen \ref{fig:Initial_drawing1} bis \ref{fig:Initial_drawing6} zeigen den Prozess der Finalisierung des Prototyp, dabei wurde zu Beginn die Sensorik platziert und die korrespondierenden Bohrungen vorgenommen, anschließend wurde die unterste Schicht mit der darüberliegenden befestigt und am Arm festgeklebt.
+\begin{figure}[ht]
+\includegraphics[scale=.3]{assets/final_layout_drawing.jpg}
+\caption{ayay}
+\label{fig:final_layout}
+\end{figure}
 
 
+\subsection{a}
 
 
-
-Nach Anforderungsanalyse an das Armband haben sich 3 Schwerpunkte ergeben. Welches Material ist für das Armband geeignet? Welche Sensoren sollen Verwendung finden und welche Eingabemodalitäten sind sinnvoll, also wo sollen diese Sensoren platziert werden.
-
-
-\subsection{Arduino}
-
-
-\begin{enumerate}
-	\item{Erhalte Sensoreingabe}	
-	\item{cut out noise}
-	\item{remap ads overreadings}
-	\item{filter out unintentional inputdata}
-	\item{send tcp}
-\end{enumerate}
-
-\subsection{final thing}
-
-\subsection{Designprozess}
-
-WeMos D1 Mini ESP8266, erweitert um ein Adafruit ADS1015 für bis zu 5 single Channel Analog input 3-5 pull ups
-@TODO bild
-
-ESP Analogwerte $\in \{0,...,1023\}$
-ADS Analogwerted $\in \{0,...,1100\}$ $\to $ map 
-
-ADS Analogwerte sind teilweise zufällig 2\^16 groß, ohne Eingabe -> Noise rausschneiden. Armbänder werden für gewöhnlich nah am Körper getragen, um unintentionelles Auslösen der Sensoren zu verhindern, werden Eingabewerte der Sensoren zwar registriert, aber nicht behandelt, dies wird durch ein Treshholding der Eingabestärke also einen erhöhten Druck auf den Sensor erreicht. Idealerweise ist das für weitere Anwendungen mit dem Gyroskop des MEMS der Smartwatch zu verbinden um beispielsweise nur Werte zu betrachten, wenn der Arm in Wagerechter Position sich befindet und dann Eingabe über das Armband erfolgt. 
-
-
-\subsection{finale Eingabemodalitäten}
-
-\section{Interfaces und Integration}
-
-\subsection{Protokolle}
-
-\subsection{Systemintegration}
+\newpage
 
 \section{Smartwatch-App Prototyp}
 
@@ -197,7 +264,7 @@ Als Start in die Umsetzung haben wir zunächst einen Lo-Fi-Prototyp skizziert, u
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[scale=.35]{assets/lo_fi_prototyp.jpeg}
+	\includegraphics[scale=.35]{assets/lo_fo_prototyp.jpeg}
 	\caption{Lo-Fi-Prototyp}
 	\label{fig:Smatwatch_Prototyp}
 \end{figure}
@@ -216,7 +283,7 @@ Als die Grundfunktionalitäten schließlich implementiert waren, konnten wir uns
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[scale=.35]{assets/smartwatch_app_erstversion.jpg}
+	\includegraphics[scale=.05]{assets/smartwatch_app_erstversion.jpg}
 	\caption{Weather Anwendung in früher Version}
 	\label{fig:app_erstversion}
 \end{figure}
@@ -247,7 +314,7 @@ Nachdem die Websocket-Kommunikation implementiert war, kam noch der Wunsch auf, 
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[scale=.35]{assets/smartwatch_app_zweitversion.jpg}
+	\includegraphics[scale=.05]{assets/smartwatch_app_zweitversion.jpg}
 	\caption{Finale Documents Anwendung}
 	\label{fig:app_zweitversion}
 \end{figure}
@@ -258,5 +325,11 @@ Wie in der Abbildung zu erkennen, haben wir die Anwendungsseite auch farblich an
 
 Die Smartwatch-App gliedert sich in das Gesamtprojekt als Element zur Anwendungsauswahl und zur Steuerung ein. So kann über die App eine Unter-Anwendung Weather, Graph oder Documents ausgewählt und durch einen Button-Klick gestartet werden. Durch die Basal-Rotation können bestimmte Elemente der Visualisierung darüber hinaus auch gesteuert werden. Außerdem kann über den Home Button eine Anwendung wieder geschlossen werden. 
 
+
+\newpage
+
+\listoffigures
+% list tables if used
+%\listoftables
 
 \end{document}

@@ -5,6 +5,8 @@
 \usepackage{graphicx}
 \usepackage{subcaption}
 
+\usepackage{wrapfig}
+
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 
@@ -325,6 +327,130 @@ Wie in der Abbildung zu erkennen, haben wir die Anwendungsseite auch farblich an
 
 Die Smartwatch-App gliedert sich in das Gesamtprojekt als Element zur Anwendungsauswahl und zur Steuerung ein. So kann über die App eine Unter-Anwendung Weather, Graph oder Documents ausgewählt und durch einen Button-Klick gestartet werden. Durch die Basal-Rotation können bestimmte Elemente der Visualisierung darüber hinaus auch gesteuert werden. Außerdem kann über den Home Button eine Anwendung wieder geschlossen werden. 
 
+\newpage
+
+\section{Mixed Reality Umsetzung}
+
+\subsection{Motivation und Idee} \label{motivation_and_idea}
+
+Der Umsetzung in einem Mixed-Reality-Umfeld lag der Gedanke zu Grunde, dass es derzeit oft schwierig ist, größere Informationsmengen oder Darstellungen auf modernen Smartwatches zu betrachten. Dies liegt daran, dass diese Geräte aufgrund ihrer Bildschirmgröße stark eingeschränkt sind. Zum Beispiel können längere Texte nur sehr klein und kaum lesbar angezeigt werden oder nur in kleinen Ausschnitten, da ihre Schriftgröße zu hoch skaliert wurde. Zudem lassen sich Bilder und Darstellungen nicht gut betrachten, und viele wichtige Details können unter Umständen unbeachtet bleiben. \\
+Aus diesen Problemen ergab sich die Idee, Smartwatch-Apps durch die HoloLens größer oder detailreicher darzustellen, da die Mixed-Reality-Umgebung eine fast uneingeschränkte Skalierung von Visualisierungen ermöglicht. Der ''virtuelle Bildschirm''    würde dabei auf Wunsch die Rolle des physischen Bildschirms übernehmen und die ausgewählte App abbilden. Auch das Armband könnte man so für den Nutzer virtuell darstellen und darauf Informationen abbilden oder seine Textur verändern.
+
+\subsection{Grundkonzept}
+
+Nach der Ideenfindung haben wir uns darauf konzentriert, eine realistische Umsetzung zu planen. Uns war bewusst, dass wir für dieses Projekt keine umfangreiche Kommunikation mit dem Betriebssystem der Smartwatch realisieren könnten, um in Echtzeit Informationen aus aktiven Apps zu erhalten, da uns die Techniken mit denen wir arbeiten würden zu diesem Zeitpunkt noch komplett neu waren. Unsere Mixed-Reality-Anwendung sollte daher lediglich eine theoretische Demonstration sein, basierend auf der Annahme, dass die Uhr und ihr Betriebssystem in Verbindung mit der HoloLens-Kommunikation und unserer Armband-Erweiterung entwickelt worden wären. \\
+Für dieses Vorhaben haben wir eine App entwickelt, die ein App-Menü beinhaltet. Über dieses Menü kann man durch Aufruf eines Icons, das eine theoretische App der Uhr symbolisiert, mit der Unity-Anwendung kommunizieren. Diese soll dann das entsprechende Verhalten ausführen. Die resultierenden Konzeptbilder visualisierten die geplante Bedienung und die Grundideen der Anwendungen (siehe Abbildung \ref{fig:concept_of_a_messageApp} und \ref{fig:concept_of_a_weatherApp}).
+
+\begin{figure}[h]
+	\begin{subfigure}[c]{0.35\textwidth}
+        \centering
+		\includegraphics[scale=.25]{assets/Messages_1.png}
+		\subcaption{Kontaktauswahl}
+	\end{subfigure}
+	\begin{subfigure}[c]{0.4\textwidth}
+        \centering
+		\includegraphics[scale=.25]{assets/Messages_2.png}
+		\subcaption{Nachrichten-Ansicht}
+	\end{subfigure}
+    \centering
+	\caption{Konzept einer Nachrichten-App (in MR)}
+    \label{fig:concept_of_a_messageApp}
+\end{figure}
+
+\begin{figure}[h]
+	\begin{subfigure}[c]{0.35\textwidth}
+        \centering
+		\includegraphics[scale=.32]{assets/Weather_1.png}
+		\subcaption{Wetter-App (MR deaktiviert)}
+	\end{subfigure}
+	\begin{subfigure}[c]{0.4\textwidth}
+        \centering
+		\includegraphics[scale=.32]{assets/Weather_2.png}
+		\subcaption{Wetter-Ansicht}
+	\end{subfigure}
+    \centering
+	\caption{Konzept einer Wetter-App (in MR)}
+    \label{fig:concept_of_a_weatherApp}
+\end{figure}
+
+\newpage
+
+\subsection{Gestaltung}
+
+\begin{wrapfigure}{r}{5cm}
+    \centering
+	\includegraphics[scale=.115]{doc/assets/Concept-Sketch.jpg}
+	\caption{Konzept-Skizze}
+	\label{fig:early_sketch_of_visualization}
+\end{wrapfigure}
+
+Als es darum ging, eine endgültige Gestaltung für das Interface der Mixed-Reality-Darstellung zu entwickeln und mit der Implementierung in Unity zu beginnen, richteten wir unser Augenmerk zunächst auf das Erscheinungsbild der Uhr. Aufgrund des schwarzen Gehäuses und des dunklen Armbands lag es nahe, für den Hintergrund des Interfaces Graustufen und Schwarz zu verwenden. Um weiterhin eine Identifikation mit der Uhr zu gewährleisten, sollte der Kreis als wiederkehrende Form dienen und die Grundlage für die Darstellung bilden (siehe Abbildung \ref{fig:early_sketch_of_visualization}). Generell sollte die Darstellung jedoch minimal gehalten werden, um den Fokus des Benutzers auf den dargestellten Informationen zu lenken.\\
+Da das Interface in seiner farblosen Form jedoch wenig lebendig erschien, entschieden wir uns, an einigen Stellen farbliche Hervorhebungen zu verwenden. Später haben wir auch das Armband virtuell in Farbe dargestellt, wobei seine Farbe der Identifizierung der aktuell ausgewählten App diente.
+
+\subsection{Message Handling}
+
+Vor dem Start der Implementierung der Mixed-Reality-Visualisierung mussten zunächst die Nachrichten der Bedienelemente empfangen und verarbeitet werden. Bei den Nachrichten des Arduino orientierten wir uns an der Implementierung in den uns zur Verfügung gestellten Beispielprojekten. Nach dem Empfang einer Nachricht des Arduino wird diese dem entsprechend gedrückten Button zugeordnet, der als \texttt{Sensor0}/FWD, \texttt{Sensor2}/Confirm und \texttt{Sensor4}/BWD bezeichnet wird (siehe Abbildung \ref{fig:controls}). Unmittelbar nach dem Empfang wird eine Methode aufgerufen, die den \texttt{MessageContainer} entpackt, den Button als gedrückt klassifiziert und seinen gesendeten Wert an die allgemeine \texttt{MessageHandler}-Methode (\texttt{HandleButtonPress}) übergibt.\\
+Die Kommunikation mit der Tizen-App erfolgt über eine separate Klasse (\texttt{WebSocket\char`_watch \ \char`_communication}). Diese übergibt die empfangenen Werte einer statischen Klasse (\texttt{State\ Changes}), in der die Werte kategorisiert und in Variablen abgelegt werden. Die Skripte, die diese Werte benötigen, überprüfen Veränderungen der \texttt{StateChanges}-Klasse mithilfe der Update-Methode und führen bei Bedarf ebenfalls die allgemeine \texttt{MessageHandler}-Methode (\texttt{Handle\ ButtonPress}) aus.\\
+Die Methode \texttt{HandleButtonPress} kann vererbt und überschrieben werden. Je nach aktuell gewählter App, betätigtem Button oder anderen Parametern ruft sie das auszuführende Verhalten auf. In der Basis-Klasse (\texttt{HandleSensorData}) dient sie dazu, bei Betätigung eines Buttons die zugehörigen Methoden in den Kindklassen aufzurufen. Von dort aus wird dann das Verhalten der MR-Visualisierung ausgelöst, und die Darstellung entsprechend angepasst.
+
+\subsection{Entwicklungsprozess}
+
+Nachdem wir uns in Unity und C# eingearbeitet hatten und die Befehle der Bedienelemente empfangen werden konnten, begannen wir mit der Arbeit an der MR-Visualisierung und ihrem Verhalten bei Eingaben. Um ein Fundament für die Implementierung zu schaffen, fügten wir der Unity-Szene eine Plane hinzu, die als "Bildschirm" dienen sollte, sowie das in Blender erstellte "virtuelle Armband". Die Klassen in den Skripten der \texttt{GameObjects} sollten alle von der Basis-Klasse (\texttt{HandleSensorData}) erben, die überschreibbare Methoden für alle Eventualitäten enthielt.\\
+Zunächst implementierten wir das Verhalten für das App-Menü, in dem verschiedene Anwendungen ausgewählt werden konnten: Wetter, Dokumente und Graph (Graph sollte dazu dienen verschiedene Graphen darzustellen). Anfänglich waren Platzhalter-Icons im Menü zu sehen, deren Farbe durch die Armband-Buttons geändert werden konnte, um die Bedienelemente und das Message-Handling zu testen. Durch die äußeren Buttons konnte zwischen den Icons vor und zurück geblättert werden, wodurch sich auch die Armband-Farbe änderte. Das alles bewerkstelligten wir durch simple Textur-Änderungen der \texttt{GameObject}-Materialien.\\
+Zur Vollendung des Prototyps implementierten wir die Wetter-App, die sich durch Auswahl des Icons auf der Smartwatch öffnen ließ (siehe Abbildung \ref{fig:first_weatherApp}). In dieser konnte man mithilfe der äußeren Armband-Buttons durch Temperatur- und Niederschlagsinformationen blättern und die dargestellten Wettergraphen durch den mittleren Button vergrößern oder verkleinern.\\
+Bei der Auseinandersetzung mit dem Prototyp fiel uns auf, dass sich die Bedienung der MR-Anwendung noch sehr umständlich und unbequem anfühlte, insbesondere das Blättern mit den seitlichen Buttons. Daher entschieden wir uns, die Bedienung neu zu strukturieren und eine andere Funktion für die seitlichen Armband-Buttons zu finden. Wir wählten die Bezel der Smartwatch für das Blättern, da diese eine schnelle und bequeme Rotation ermöglichten. Die seitlichen Armband-Buttons erhielten eine Funktion für eine sekundäre Darstellung des MR-Interface sowie die Möglichkeit, das Interface nach Bedarf zu deaktivieren oder zu aktivieren. Damit hatten wir also die Kontrolle der Apps, bis auf den mittleren Armband-Button, komplett auf die Smartwatch-Bedienelemente ausgelagert und die Kontrolle der MR-Darstellung auf die seitlichen Armband-Buttons gelegt.\\
+Schließlich implementierten wir die Dokumenten-App, die dem initialen Ziel großer Dokumentdarstellungen (siehe \ref{motivation_and_idea} Motivation und Idee) am nächsten kam. Nach dem Start der App wurde der Benutzer in ein Auswahlmenü gebracht, in dem er die verfügbaren Dokumente sehen konnte. Nach der Selektion wurde die Datei angezeigt, und der Benutzer konnte ggf. durch verfügbare Seiten blättern. Um die Seitenanzeige klarer zu gestalten, fügten wir dem Armband in der Unity-Szene eine \texttt{PageIndicator}-Anzeige hinzu, die bei Bedarf erscheinen konnte (siehe Abbildung \ref{fig:documentsApp}). Damit endete die Entwicklungsphase unseres Projektes.
+
+\begin{figure}[h]
+	\begin{subfigure}[c]{0.4\textwidth}
+        \centering
+	   \includegraphics[scale=.2]{doc/assets/Prototyp_Weather.png}
+	   \caption{Wetter-App des Prototyps}
+	   \label{fig:first_weatherApp}
+	\end{subfigure}
+	\begin{subfigure}[c]{0.5\textwidth}
+        \centering
+	   \includegraphics[scale=.55]{doc/assets/PageIndicator.png}
+	   \caption{Dokumenten-App}
+	   \label{fig:documentsApp}
+	\end{subfigure}
+    \centering
+	\caption{Apps zu  verschiedenen Phasen der Entwicklung}
+\end{figure}
+
+\subsection{Endergebnis und Bedienung}
+
+Zum Schluss konnte unsere Unity-Anwendung also Nachrichten vom Arduino und der Tizen-Applikation empfangen. Sie beinhaltete das App-Menü, die Wetter-App und die Dokumenten-App, zwei unterschiedliche Darstellungsmöglichkeiten sowie die Funktion, die MR-Darstellungen aus- und anzuschalten. Die Graph-App lässt sich immer noch unimplementiert als Platzhalter im App-Menü finden.\\
+Zur besseren Übersicht bezeichneten wir den mittleren Armband-Button als Confirm-Button und die beiden seitlichen als BWD (backward) und FWD (forward) -Button (siehe Abbildung \ref{fig:controls}).\\
+
+\begin{figure}[h]
+	\begin{subfigure}[c]{0.4\textwidth}
+        \centering
+		\includegraphics[scale=.4]{doc/assets/WatchControls.png}
+	\end{subfigure}
+	\begin{subfigure}[c]{0.5\textwidth}
+        \centering
+		\includegraphics[scale=.4]{doc/assets/WristbandControls.png}
+	\end{subfigure}
+    \centering
+	\caption{Bedienelemente}
+    \label{fig:controls}
+\end{figure}
+
+\newpage
+
+Im App-Menü kann durch Rotation der Bezel an der Smartwatch eine App gewählt werden, und durch das Drücken des Icons auf dem Display der Uhr kann die App gestartet werden. Bei erneutem Drücken auf den Bildschirm wird die App wieder verlassen, und man gelangt zurück ins App-Menü.\\
+Die Wetter-App zeigt bei Rotation der Bezel verschiedene Wetter-Informationen an. Mit dem Confirm-Button kann man die angezeigte Abbildung vergrößern und wieder verkleinern.\\
+Beim Starten der Dokumenten-App gelangt man zunächst in ein Untermenü, in dem man eines der angebotenen Dokumente mit der Bezel-Rotation auswählen kann. Mit dem Betätigen des Confirm-Buttons kann das gewählte Dokument geöffnet und wieder geschlossen werden. Durch die gewählte Datei kann man dann ggf. ebenfalls mit der Bezel-Rotation durchblättern.\\
+Mit dem FWD-Button kann man jederzeit zwischen der größeren Zweitdarstellung und der normalen Ansicht wechseln. \\
+Der BWD-Button dient dazu, die gesamte Mixed-Reality-Ansicht zu deaktivieren und erneut zu starten (siehe Abbildung \ref{fig:button_behavior}).
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=.5]{doc/assets/Darstellungen.png}
+	\caption{Funktion seitlicher Armband-Buttons}
+	\label{fig:button_behavior}
+\end{figure}
 
 \newpage
 

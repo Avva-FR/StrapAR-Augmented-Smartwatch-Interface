@@ -1,14 +1,3 @@
-# KPMI_2023
+# StrapAR Augmented Smartwatch Interface
 
-## Verantwortlichkeiten
-
-Flo: Uhrenarmband und Arduino 
-Dieter: Uhr und Unity
-Yorick: Uhr und Unity
-
-
-## Aufgaben und nächste Schritte
-
-Flo: Uhrenarmband Prototypen 
-Dieter: Uhr serverkonnektion und basic App
-Yorick: Uhr serverkonnektion und basic App
+Project outline: [View the project outline](/doc/Project_outline.pdf)

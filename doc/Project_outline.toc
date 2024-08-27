@@ -7,7 +7,6 @@
 \contentsline {subsection}{\numberline {2.2}Konzeptentwicklung}{3}{subsection.2.2}%
 \contentsline {subsection}{\numberline {2.3}Konzeptrealisierung}{5}{subsection.2.3}%
 \contentsline {subsection}{\numberline {2.4}Konzeptfinalisierung}{6}{subsection.2.4}%
-\contentsline {subsection}{\numberline {2.5}a}{7}{subsection.2.5}%
 \contentsline {section}{\numberline {3}Smartwatch-App Prototyp}{8}{section.3}%
 \contentsline {subsection}{\numberline {3.1}Ideenfindung}{8}{subsection.3.1}%
 \contentsline {subsection}{\numberline {3.2}Lo-Fi-Prototyp}{8}{subsection.3.2}%
@@ -16,3 +15,10 @@
 \contentsline {subsection}{\numberline {3.5}Websockets}{9}{subsection.3.5}%
 \contentsline {subsection}{\numberline {3.6}Zweitfassung der Smartwatch-App}{10}{subsection.3.6}%
 \contentsline {subsection}{\numberline {3.7}Systemintegration}{10}{subsection.3.7}%
+\contentsline {section}{\numberline {4}Mixed Reality Umsetzung}{11}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Motivation und Idee}{11}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Grundkonzept}{11}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}Gestaltung}{12}{subsection.4.3}%
+\contentsline {subsection}{\numberline {4.4}Message Handling}{12}{subsection.4.4}%
+\contentsline {subsection}{\numberline {4.5}Entwicklungsprozess}{12}{subsection.4.5}%
+\contentsline {subsection}{\numberline {4.6}Endergebnis und Bedienung}{13}{subsection.4.6}%
